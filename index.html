@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Panggil Kami — Jasa Bersih-Bersih, Belanja & Titip Beli di Solo</title>
+  <meta name="description"
+    content="Panggil Kami adalah platform pesan jasa harian di Solo: bersih-bersih kamar kos, belanja kebutuhan, jasa titip, dan antar barang. Pesan langsung via WhatsApp, praktis buat anak kos yang sibuk kuliah.">
+  <meta name="keywords"
+    content="Panggil Kami Solo, bersih bersih kos Solo, jasa titip Solo, antar jemput barang Solo, jasa harian Solo">
+  <meta name="theme-color" content="#0E7C86">
+  <link rel="canonical" href="https://panggilkami.id/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Panggil Kami — Beres Urusan Harianmu, Tinggal Panggil">
+  <meta property="og:description"
+    content="Pesan jasa bersih-bersih, belanja, titip beli, dan antar barang di Solo. Chat WhatsApp, langsung diproses.">
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:site_name" content="Panggil Kami">
+
+  <link rel="icon" type="image/jpeg" href="assets/icon/1.jpg">
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230E7C86'/%3E%3Ctext x='50' y='67' font-size='44' font-weight='800' letter-spacing='-1' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3EPK%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --teal-900: #0B4A50;
+      --teal-700: #0E7C86;
+      --teal-600: #12969F;
+      --teal-100: #E4F4F4;
+      --ink: #12181C;
+      --ink-soft: #57646B;
+      --paper: #FFFFFF;
+      --paper-soft: #F5F8F8;
+      --wa: #25D366;
+      --wa-dark: #1DA851;
+      --line: #E4E9EA;
+      --radius-card: 18px;
+      --radius-pill: 999px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 76px;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .brand,
+    .btn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    h2.section-title {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-size: 1.9rem;
+    }
+
+    p.section-lead {
+      color: var(--ink-soft);
+      max-width: 560px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .container-narrow {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding-left: 1.1rem;
+      padding-right: 1.1rem;
+    }
+
+    /* Navbar */
+    .navbar-pk {
+      position: sticky;
+      top: 0;
+      z-index: 1030;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: saturate(180%) blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--teal-900);
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      letter-spacing: -0.025em;
+      text-decoration: none;
+      transition: opacity .15s ease;
+    }
+
+    .brand:hover {
+      opacity: .92;
+    }
+
+    .brand-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #0E7C86 0%, #15A2AC 100%);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: .88rem;
+      letter-spacing: -0.02em;
+      box-shadow: 0 4px 14px -3px rgba(14, 124, 134, .45);
+      border: 1.5px solid rgba(255, 255, 255, .9);
+      flex-shrink: 0;
+      transition: transform .2s ease;
+    }
+
+    .brand:hover .brand-badge {
+      transform: scale(1.05);
+    }
+
+    .brand-text {
+      display: inline-flex;
+      align-items: baseline;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .brand-text .part-panggil {
+      color: #0B4A50;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text .part-kami {
+      color: #0E7C86;
+      margin-left: 3px;
+      position: relative;
+    }
+
+    .brand-text .part-kami::after {
+      content: '';
+      position: absolute;
+      bottom: 0px;
+      left: 0;
+      width: 100%;
+      height: 2.5px;
+      background: linear-gradient(90deg, #0E7C86, #25D366);
+      border-radius: 999px;
+      opacity: .85;
+    }
+
+    footer .brand-text .part-panggil {
+      color: #ffffff;
+    }
+
+    footer .brand-text .part-kami {
+      color: #5EEAD4;
+    }
+
+    footer .brand-text .part-kami::after {
+      background: #5EEAD4;
+    }
+
+    footer .brand-badge {
+      background: rgba(255, 255, 255, .15);
+      border-color: rgba(255, 255, 255, .3);
+      box-shadow: none;
+    }
+
+    .navbar-pk .nav-link {
+      color: var(--ink-soft);
+      font-weight: 500;
+      font-size: .92rem;
+      padding: .42rem .85rem;
+      border-radius: var(--radius-pill);
+      transition: color .15s ease, background .15s ease;
+    }
+
+    .navbar-pk .nav-link:hover,
+    .navbar-pk .nav-link:focus {
+      color: var(--teal-900);
+      background: rgba(14, 124, 134, .08);
+    }
+
+    .btn-wa {
+      background: var(--wa);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      padding: .6rem 1.15rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      transition: transform .15s ease, background .15s ease;
+    }
+
+    .btn-wa:hover {
+      background: var(--wa-dark);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .btn-wa:active {
+      transform: scale(.97);
+    }
+
+    .btn-teal {
+      background: var(--teal-700);
+      color: #fff;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      padding: .65rem 1.4rem;
+      border: none;
+    }
+
+    .btn-teal:hover {
+      background: var(--teal-900);
+      color: #fff;
+    }
+
+    .btn-outline-teal {
+      border: 1.5px solid var(--teal-700);
+      color: var(--teal-700);
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      padding: .6rem 1.3rem;
+      background: #fff;
+    }
+
+    .btn-outline-teal:hover {
+      background: var(--teal-100);
+      color: var(--teal-900);
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(180deg, var(--teal-100) 0%, #ffffff 72%);
+      padding: 3.2rem 0 2.4rem;
+    }
+
+    .hero h1 {
+      font-weight: 800;
+      font-size: 2.5rem;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      color: var(--teal-900);
+    }
+
+    .hero p.lead {
+      color: var(--ink-soft);
+      font-size: 1.05rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 1.6rem;
+      margin-top: 1.6rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-stats .stat b {
+      display: block;
+      font-size: 1.3rem;
+      color: var(--teal-900);
+      font-weight: 800;
+    }
+
+    .hero-stats .stat span {
+      font-size: .83rem;
+      color: var(--ink-soft);
+    }
+
+    .hero-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 1.4rem;
+      box-shadow: 0 18px 40px -22px rgba(14, 124, 134, .35);
+    }
+
+    .hero-card .step {
+      display: flex;
+      gap: .8rem;
+      align-items: flex-start;
+      padding: .55rem 0;
+    }
+
+    .hero-card .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--teal-700);
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Section spacing */
+    section {
+      padding: 3.4rem 0;
+    }
+
+    .bg-soft {
+      background: var(--paper-soft);
+    }
+
+    /* Search & filter */
+    .search-wrap {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: .5rem;
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      box-shadow: 0 8px 24px -18px rgba(0, 0, 0, .2);
+    }
+
+    .search-wrap input {
+      border: none;
+      outline: none;
+      flex: 1;
+      padding: .5rem .3rem;
+      font-size: .98rem;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .filter-pill {
+      border: 1.5px solid var(--line);
+      background: #fff;
+      border-radius: var(--radius-pill);
+      padding: .4rem 1rem;
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: .15s;
+    }
+
+    .filter-pill.active,
+    .filter-pill:hover {
+      border-color: var(--teal-700);
+      color: var(--teal-900);
+      background: var(--teal-100);
+    }
+
+    /* Service card */
+    .svc-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      height: 100%;
+      cursor: pointer;
+      transition: transform .18s ease, box-shadow .18s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .svc-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 34px -22px rgba(14, 74, 80, .35);
+    }
+
+    .svc-img {
+      aspect-ratio: 4/3;
+      width: 100%;
+      object-fit: cover;
+      background: var(--teal-100);
+    }
+
+    .svc-body {
+      padding: 1rem 1.1rem 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: .45rem;
+      flex: 1;
+    }
+
+    .svc-cat {
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--teal-700);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .svc-name {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+
+    .svc-desc {
+      font-size: .87rem;
+      color: var(--ink-soft);
+      flex: 1;
+    }
+
+    .svc-price {
+      font-weight: 800;
+      color: var(--teal-900);
+      font-size: 1rem;
+    }
+
+    .svc-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: .4rem;
+    }
+
+    /* Area */
+    .area-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: .95rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      text-decoration: none;
+      color: var(--ink);
+      height: 100%;
+      transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .02);
+    }
+
+    .area-card:hover {
+      border-color: var(--teal-700);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px -10px rgba(14, 124, 134, .25);
+      color: var(--teal-900);
+    }
+
+    .area-card-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--teal-100);
+      color: var(--teal-700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      transition: transform .2s ease, background .2s ease, color .2s ease;
+    }
+
+    .area-card:hover .area-card-icon {
+      background: var(--teal-700);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .area-card-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .area-card-title {
+      font-weight: 700;
+      font-size: .95rem;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+
+    .area-card-sub {
+      font-size: .78rem;
+      color: var(--ink-soft);
+      margin-top: .2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .area-maps-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--paper-soft);
+      color: var(--ink-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .82rem;
+      flex-shrink: 0;
+      transition: all .18s ease;
+    }
+
+    .area-card:hover .area-maps-btn {
+      background: var(--teal-100);
+      color: var(--teal-700);
+      transform: translate(2px, -2px);
+    }
+
+    /* Testimoni */
+    .testi-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.4rem;
+      height: 100%;
+    }
+
+    .testi-stars {
+      color: #F5A623;
+      font-size: .85rem;
+    }
+
+    .testi-name {
+      font-weight: 700;
+      margin-top: .6rem;
+    }
+
+    .testi-role {
+      font-size: .8rem;
+      color: var(--ink-soft);
+    }
+
+    /* FAQ */
+    .accordion-button {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .accordion-button:not(.collapsed) {
+      background: var(--teal-100);
+      color: var(--teal-900);
+    }
+
+    .accordion-button:focus {
+      box-shadow: none;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--teal-900);
+      color: #DCEEEF;
+      padding: 3rem 0 1.6rem;
+    }
+
+    footer a {
+      color: #DCEEEF;
+      opacity: .85;
+    }
+
+    footer a:hover {
+      opacity: 1;
+      color: #fff;
+    }
+
+    footer h6 {
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .footer-note {
+      font-size: .8rem;
+      opacity: .7;
+      border-top: 1px solid rgba(255, 255, 255, .15);
+      padding-top: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    /* Floating WA */
+    .fab-wa {
+      position: fixed;
+      bottom: 1.3rem;
+      right: 1.3rem;
+      z-index: 1040;
+      background: var(--wa);
+      color: #fff;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 10px 24px -6px rgba(37, 211, 102, .6);
+      border: none;
+      animation: pulse-wa 2.4s infinite;
+    }
+
+    .fab-wa:hover {
+      background: var(--wa-dark);
+    }
+
+    @keyframes pulse-wa {
+      0% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, .45);
+      }
+
+      70% {
+        box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fab-wa {
+        animation: none;
+      }
+
+      * {
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Detail modal */
+    .modal-content {
+      border-radius: 20px;
+      border: none;
+    }
+
+    .detail-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      border-radius: 14px;
+    }
+
+    .detail-price-box {
+      background: var(--teal-100);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .detail-list li {
+      margin-bottom: .35rem;
+      font-size: .92rem;
+    }
+
+    .toast-wa {
+      position: fixed;
+      bottom: 6.2rem;
+      right: 1.3rem;
+      z-index: 1050;
+    }
+
+    .badge-soft {
+      background: var(--teal-100);
+      color: var(--teal-900);
+      font-weight: 700;
+      border-radius: var(--radius-pill);
+      padding: .35rem .8rem;
+      font-size: .78rem;
+    }
+
+    @media (max-width:767px) {
+      .hero h1 {
+        font-size: 1.9rem;
+      }
+
+      section {
+        padding: 2.4rem 0;
+      }
+
+      .hero-stats {
+        gap: 1.1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-pk navbar-expand-lg py-2">
+    <div class="container-narrow d-flex align-items-center justify-content-between">
+      <a class="brand" href="#beranda">
+        <span class="brand-badge">PK</span>
+        <span class="brand-text"><span class="part-panggil">Panggil</span><span class="part-kami">Kami</span></span>
+      </a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu"
+        aria-controls="navMenu" aria-label="Buka menu navigasi">
+        <i class="bi bi-list fs-2"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav mx-auto mt-3 mt-lg-0 gap-lg-1 gap-2 text-center align-items-center">
+          <li class="nav-item"><a class="nav-link" href="#beranda">Beranda</a></li>
+          <li class="nav-item"><a class="nav-link" href="#layanan">Layanan</a></li>
+          <li class="nav-item"><a class="nav-link" href="#area">Area</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
+          <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+          <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+        </ul>
+        <a href="#" id="navWaBtn" class="btn btn-wa mt-3 mt-lg-0 d-inline-flex mx-auto ms-lg-auto me-lg-0"><i
+            class="bi bi-whatsapp"></i>
+          Pesan via WhatsApp</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero / Beranda -->
+  <header id="beranda" class="hero">
+    <div class="container-narrow">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-6">
+          <span class="badge-soft mb-3 d-inline-block"><i class="bi bi-geo-alt-fill me-1"></i>Khusus wilayah Solo &
+            sekitarnya</span>
+          <h1>Urusan harian numpuk? Panggil aja, beres.</h1>
+          <p class="lead mt-3">Panggil Kami bantu anak kos dan mahasiswa sibuk kuliah pesan bersih-bersih kamar,
+            belanja kebutuhan, antar barang, sampai jasa titip — tinggal chat WhatsApp, tanpa ribet download aplikasi
+            dulu.</p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="#layanan" class="btn btn-teal">Lihat Semua Layanan</a>
+            <a href="#" id="heroWaBtn" class="btn btn-wa"><i class="bi bi-whatsapp"></i> Chat Sekarang</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat"><b>6+</b><span>jenis layanan harian</span></div>
+            <div class="stat"><b>5</b><span>kecamatan di Solo</span></div>
+            <div class="stat"><b>24 Jam </b><span>jam layanan aktif</span></div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero-card">
+            <h4 class="fw-bold mb-3" style="color:var(--teal-900)">Cara pesannya gampang</h4>
+            <div class="step">
+              <div class="step-num">1</div>
+              <div><b>Pilih layanan</b>
+                <div class="text-secondary small">Bersih kamar, belanja kebutuhan, titip beli, atau antar barang.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div><b>Tap "Pesan via WhatsApp"</b>
+                <div class="text-secondary small">Pesan otomatis kesusun, kamu tinggal isi jadwal & alamat.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div><b>Konfirmasi & selesai</b>
+                <div class="text-secondary small">Tim kami balas cepat, sepakati harga, jasa langsung meluncur.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layanan -->
+  <section id="layanan">
+    <div class="container-narrow">
+      <h2 class="section-title">Layanan yang tersedia</h2>
+      <p class="section-lead mb-4">Semua bisa dipesan langsung lewat WhatsApp, tanpa perlu daftar akun atau bayar
+        online.</p>
+
+      <div class="search-wrap mb-2">
+        <i class="bi bi-search text-secondary ms-2"></i>
+        <input type="text" id="searchInput"
+          placeholder="Cari layanan, misal: bersih kamar, belanja, jastip, antar barang..." aria-label="Cari layanan">
+      </div>
+      <div class="filter-pills" id="filterPills"></div>
+
+      <div class="row g-3 mt-1" id="serviceGrid"></div>
+      <p class="text-center text-secondary mt-3 d-none" id="emptyState">Layanan tidak ditemukan. Coba kata kunci lain,
+        atau <a href="#kontak">hubungi kami</a> langsung.</p>
+    </div>
+  </section>
+
+  <!-- Area Layanan -->
+  <section id="area" class="bg-soft">
+    <div class="container-narrow">
+      <h2 class="section-title">Area layanan di Solo</h2>
+      <p class="section-lead mb-4">Fokus melayani area sekitar kampus dan kos-kosan di Solo. Klik pada kartu area untuk
+        langsung membuka patokan lokasi umum di Google Maps.</p>
+      <div class="row g-3" id="areaGrid"></div>
+    </div>
+  </section>
+
+  <!-- Testimoni -->
+  <section id="testimoni">
+    <div class="container-narrow">
+      <h2 class="section-title">Kata mereka yang udah pakai</h2>
+      <p class="section-lead mb-4">Cerita dari mahasiswa dan anak kos di Solo yang jadwalnya udah kebantu.</p>
+      <div class="row g-3" id="testiGrid"></div>
+    </div>
+  </section>
+
+  <!-- Tentang -->
+  <section id="tentang" class="bg-soft">
+    <div class="container-narrow">
+      <div class="row g-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title">Tentang Panggil Kami</h2>
+          <p class="text-secondary mt-2">Panggil Kami lahir dari keresahan yang sama: kuliah padat, tugas menumpuk, tapi
+            kamar kos berantakan dan kebutuhan harian mendesak juga butuh diurus. Kami menghubungkan kamu dengan
+            penyedia jasa terpercaya di
+            Solo, supaya urusan kosan nggak lagi jadi beban tambahan di tengah jadwal kuliah.</p>
+          <ul class="list-unstyled mt-3">
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Penyedia jasa terverifikasi di
+              area Solo</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Harga transparan, disepakati
+              sebelum jasa dikerjakan</li>
+            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Pemesanan simpel lewat chat, tanpa
+              aplikasi ribet</li>
+          </ul>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-4 bg-white border rounded-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-shop me-2 text-teal" style="color:var(--teal-700)"></i>Buka Layanan
+              di Panggil Kami?</h5>
+            <p class="text-secondary small">Kamu penyedia jasa cleaning service, kurir, atau asisten belanja harian di
+              Solo? Daftarkan
+              layananmu dan mulai terima pesanan dari mahasiswa & anak kos di sekitarmu.</p>
+            <a href="#" id="mitraWaBtn" class="btn btn-outline-teal mt-2"><i class="bi bi-whatsapp me-1"></i>Daftar Jadi
+              Mitra</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container-narrow">
+      <h2 class="section-title">Pertanyaan yang sering ditanyakan</h2>
+      <p class="section-lead mb-4">Masih ada yang bingung? Cek dulu di sini sebelum chat kami.</p>
+      <div class="accordion" id="faqAccordion"></div>
+    </div>
+  </section>
+
+  <!-- Kontak -->
+  <section id="kontak" class="bg-soft">
+    <div class="container-narrow">
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <h2 class="section-title">Hubungi kami</h2>
+          <p class="section-lead mb-4">Chat langsung, kami balas secepat mungkin di jam operasional.</p>
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex gap-3 align-items-start">
+              <i class="bi bi-whatsapp fs-4" style="color:var(--wa)"></i>
+              <div><b>WhatsApp</b>
+                <div class="text-secondary small">Cara tercepat untuk pesan & tanya-tanya</div>
+              </div>
+            </div>
+            <div class="d-flex gap-3 align-items-start">
+              <i class="bi bi-clock-fill fs-5" style="color:var(--teal-700)"></i>
+              <div><b>Jam Operasional</b>
+                <div class="text-secondary small">Senin–Sabtu 07.00–21.00 WIB · Minggu 09.00–17.00 WIB</div>
+              </div>
+            </div>
+            <div class="d-flex gap-3 align-items-start">
+              <i class="bi bi-geo-alt-fill fs-5" style="color:var(--teal-700)"></i>
+              <div><b>Area Layanan</b>
+                <div class="text-secondary small">Laweyan, Serengan, Pasar Kliwon, Jebres, Banjarsari — Kota Solo</div>
+              </div>
+            </div>
+            <div class="d-flex gap-3 mt-2">
+              <a href="#" id="igBtn" class="btn btn-outline-teal btn-sm"><i
+                  class="bi bi-instagram me-1"></i>Instagram</a>
+              <a href="#" id="tiktokBtn" class="btn btn-outline-teal btn-sm"><i class="bi bi-tiktok me-1"></i>TikTok</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-4 bg-white border rounded-4 shadow-sm">
+            <h5 class="fw-bold mb-1">Langsung pesan sekarang</h5>
+            <p class="text-secondary small mb-3">Klik tombol di bawah, pesan otomatis sudah tersusun dengan format resmi
+              di WhatsApp:</p>
+
+            <!-- Format Pesan WhatsApp -->
+            <div class="p-3 bg-light border rounded-3 mb-3 text-start">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small fw-bold text-dark"><i class="bi bi-whatsapp text-success me-1"></i>Format Pesanan
+                  WhatsApp</span>
+                <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size:.75rem"
+                  onclick="copyWaFormatKontak(this)"><i class="bi bi-clipboard me-1"></i>Salin Format</button>
+              </div>
+              <pre class="mb-0 text-secondary"
+                style="font-size:.8rem; white-space:pre-wrap; font-family:inherit; line-height:1.55;"
+                id="waFormatKontakText">Halo Panggil Kami, saya mau pesan jasa harian.
+• Nama: ...
+• Layanan: ...
+• Hari / Tgl: ...
+• Jam: ...
+• Alamat / Kos: ...
+• Kebutuhan khusus: ...
+
+Mohon konfirmasi ketersediaan & harganya. Terima kasih!</pre>
+            </div>
+
+            <a href="#" id="kontakWaBtn" class="btn btn-wa w-100 justify-content-center py-2"><i
+                class="bi bi-whatsapp"></i> Pesan via WhatsApp</a>
+            <p class="text-secondary small mt-3 mb-0"><i class="bi bi-info-circle me-1"></i>Pemesanan dan pembayaran
+              dilakukan langsung via WhatsApp bersama tim/mitra kami. Panggil Kami tidak memproses pembayaran online.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container-narrow">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <a class="brand text-white d-flex align-items-center gap-2" href="#beranda">
+            <span class="brand-badge footer-badge">PK</span>
+            <span class="brand-text text-white"><span class="part-panggil">Panggil</span><span
+                class="part-kami">Kami</span></span>
+          </a>
+          <p class="small mt-3" style="opacity:.8">Platform pemesanan jasa harian untuk mahasiswa dan anak kos di Solo.
+            Panggil, beres, lanjut kuliah.</p>
+        </div>
+        <div class="col-6 col-lg-2">
+          <h6>Navigasi</h6>
+          <div class="d-flex flex-column gap-2 small">
+            <a href="#layanan">Layanan</a><a href="#area">Area</a><a href="#tentang">Tentang</a><a href="#faq">FAQ</a>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h6>Legal</h6>
+          <div class="d-flex flex-column gap-2 small">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Kebijakan Privasi</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Syarat &amp; Ketentuan</a>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <h6>Sosial</h6>
+          <div class="d-flex gap-3 fs-5">
+            <a href="#" id="igFooter"><i class="bi bi-instagram"></i></a>
+            <a href="#" id="tiktokFooter"><i class="bi bi-tiktok"></i></a>
+            <a href="#" id="waFooter"><i class="bi bi-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note text-center">
+        © <span id="year"></span> Panggil Kami — Solo. Pemesanan &amp; pembayaran diproses via WhatsApp, bukan melalui
+        website ini.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp -->
+  <button class="fab-wa" id="fabWa" aria-label="Pesan via WhatsApp"><i class="bi bi-whatsapp"></i></button>
+  <div class="toast-wa">
+    <div id="waToast" class="toast align-items-center text-bg-dark border-0" role="status" aria-live="polite"
+      aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body small"><i class="bi bi-whatsapp me-1" style="color:var(--wa)"></i>Membuka WhatsApp…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detail Layanan -->
+  <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold" id="detailModalLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body" id="detailModalBody"></div>
+        <div class="modal-footer border-0">
+          <a href="#" id="detailWaBtn" class="btn btn-wa w-100 justify-content-center py-2"><i
+              class="bi bi-whatsapp"></i> Pesan via WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Privacy -->
+  <div class="modal fade" id="privacyModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Kebijakan Privasi</h5><button class="btn-close" data-bs-dismiss="modal"
+            aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body small text-secondary">
+          <p>Panggil Kami menghargai privasi pengguna. Data yang kamu berikan (nama, alamat, kebutuhan layanan) hanya
+            digunakan untuk keperluan pemesanan jasa melalui WhatsApp dan tidak disimpan di server website ini, karena
+            seluruh proses pemesanan berlangsung langsung di aplikasi WhatsApp kamu.</p>
+          <p>Kami tidak membagikan data pribadimu ke pihak ketiga di luar kebutuhan pelaksanaan jasa yang kamu pesan.
+            Dengan menggunakan tombol "Pesan via WhatsApp", kamu setuju bahwa percakapan selanjutnya berlangsung di
+            platform WhatsApp sesuai kebijakan privasi WhatsApp/Meta.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Terms -->
+  <div class="modal fade" id="termsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title fw-bold">Syarat &amp; Ketentuan</h5><button class="btn-close" data-bs-dismiss="modal"
+            aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body small text-secondary">
+          <p>Panggil Kami adalah platform yang mempertemukan pengguna dengan penyedia jasa harian di area Solo. Seluruh
+            pemesanan, konfirmasi jadwal, kesepakatan harga, dan pembayaran dilakukan langsung antara pengguna dan
+            tim/mitra Panggil Kami melalui WhatsApp — website ini tidak memproses transaksi atau pembayaran online.</p>
+          <p>Harga yang tercantum bersifat estimasi dan dapat berubah sesuai kondisi aktual saat konfirmasi. Pengguna
+            bertanggung jawab memberikan alamat dan detail kebutuhan yang benar. Panggil Kami berhak menolak pesanan
+            yang berada di luar jangkauan area layanan.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    /* ============ KONFIGURASI ============ */
+    const CONFIG = {
+      waNumber: "6282283883580", // TODO: ganti dengan nomor WhatsApp resmi Panggil Kami (format 62xxxxxxxxxx)
+      brandName: "Panggil Kami",
+      instagram: "https://instagram.com/panggilkami.id",
+      tiktok: "https://tiktok.com/@panggilkami.id"
+    };
+
+    /* ============ DATA LAYANAN ============ */
+    const SERVICES = [
+      {
+        id: "bersih-kamar", cat: "Bersih-Bersih", name: "Bersih-Bersih Kamar Kos", price: "Mulai Rp35.000", short: "Sapu, pel, rapikan kamar dalam ±1 jam.",
+        desc: "Kamar kos berantakan karena sibuk kuliah dan organisasi? Tim kami bantu bersihkan lantai, rapikan meja belajar, dan buang sampah, tanpa kamu perlu ambil cuti dari tugas.",
+        packages: ["Standar (±1 jam) — Rp35.000", "Deep clean (±2 jam) — Rp60.000"],
+        img: "assets/img/bersih-kamar.jpg"
+      },
+      {
+        id: "bersih-rumah", cat: "Bersih-Bersih", name: "Bersih-Bersih Rumah / Kontrakan", price: "Mulai Rp75.000", short: "Untuk kontrakan atau rumah kos 2–3 ruangan.",
+        desc: "Cocok buat kamu yang ngekos bareng teman-teman di rumah kontrakan. Kami bersihkan ruang tamu, dapur, dan kamar mandi sampai kinclong.",
+        packages: ["2 ruangan (±2 jam) — Rp75.000", "3–4 ruangan (±3 jam) — Rp120.000"],
+        img: "assets/img/bersih-rumah.jpg"
+      },
+      {
+        id: "belanja", cat: "Belanja & Titip", name: "Belanja Kebutuhan Harian", price: "Ongkos jasa mulai Rp10.000", short: "Belanja ke minimarket/pasar, kami antar ke kos.",
+        desc: "Lagi banyak tugas dan nggak sempat belanja galon, sabun, atau bahan masak? Kasih daftar belanjaanmu, kami belanjakan dan antar sampai kos.",
+        packages: ["Belanja dekat (≤2km) — ongkos jasa Rp10.000 + biaya belanja", "Belanja jauh (>2km) — ongkos jasa Rp15.000 + biaya belanja"],
+        img: "assets/img/belanja.jpg"
+      },
+      {
+        id: "jastip", cat: "Belanja & Titip", name: "Jasa Titip (Jastip) Makan & Jajan", price: "Mulai Rp7.000", short: "Titip makan siang, kopi, atau jajanan favorit.",
+        desc: "Lagi di tengah jadwal kuliah padat dan nggak sempat keluar cari makan? Titip aja ke kami, dari warung langganan sampai kedai kopi favoritmu.",
+        packages: ["Jastip dekat kampus — Rp7.000/pesanan", "Jastip area kota — Rp12.000/pesanan"],
+        img: "assets/img/jastip.jpg"
+      },
+      {
+        id: "antar-barang", cat: "Antar-Jemput", name: "Antar-Jemput Barang & Dokumen", price: "Mulai Rp12.000", short: "Kirim tugas, dokumen, atau barang kecil cepat.",
+        desc: "Perlu kirim print-an tugas ke kampus atau ambil paket titipan teman? Kami jemput dan antar dengan cepat, aman sampai tujuan.",
+        packages: ["Dalam kota (≤3km) — Rp12.000", "Antar-jemput dua arah — Rp20.000"],
+        img: "assets/img/antar-barang.jpg"
+      },
+      {
+        id: "pekerjaan-rumah", cat: "Bersih-Bersih", name: "Pekerjaan Rumah Simpel", price: "Rp30.000/jam", short: "Cuci piring, beres-beres ringan di kos.",
+        desc: "Pekerjaan rumah kecil yang bikin waktu belajarmu habis? Serahkan ke kami — cuci piring numpuk, beres-beres meja dapur, sampai rapikan rak.",
+        packages: ["1 jam kerja — Rp30.000", "2 jam kerja — Rp55.000"],
+        img: "assets/img/pekerjaan-rumah.jpg"
+      },
+    ];
+
+    const AREAS = [
+      {
+        name: "Jebres (dekat UNS)",
+        landmark: "Kampus UNS & RS Moewardi",
+        icon: "bi-mortarboard-fill",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Universitas+Sebelas+Maret+Surakarta"
+      },
+      {
+        name: "Banjarsari",
+        landmark: "Stadion Manahan & Stasiun Balapan",
+        icon: "bi-geo-alt-fill",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Stadion+Manahan+Surakarta"
+      },
+      {
+        name: "Laweyan",
+        landmark: "Kampung Batik Laweyan & Solo Square",
+        icon: "bi-geo-alt-fill",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Kampung+Batik+Laweyan+Surakarta"
+      },
+      {
+        name: "Pasar Kliwon",
+        landmark: "Pasar Gede & Alun-Alun Solo",
+        icon: "bi-geo-alt-fill",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Pasar+Gede+Harjonagoro+Surakarta"
+      },
+      {
+        name: "Serengan",
+        landmark: "Solo Grand Mall & Dawung",
+        icon: "bi-geo-alt-fill",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Solo+Grand+Mall+Surakarta"
+      },
+      {
+        name: "Sekitar Kampus UMS",
+        landmark: "Kampus 1 & 2 UMS Pabelan",
+        icon: "bi-mortarboard-fill",
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Universitas+Muhammadiyah+Surakarta"
+      },
+    ];
+
+    const TESTIMONIALS = [
+      { name: "Aisyah", role: "Mahasiswa, Jebres", text: "Jasa bersih kamarnya ngebantu banget pas lagi hectic revisi skripsi. Bersih, wangi, rapi tanpa repot.", stars: 5 },
+      { name: "Bagas", role: "Anak kos, dekat UMS", text: "Kamar berantakan pas UAS, akhirnya panggil jasa bersih-bersih. Worth it, rapi lagi dalam sejam.", stars: 5 },
+      { name: "Nadia", role: "Mahasiswa, Kentingan", text: "Sering jastip makan siang pas jadwal kuliah padat. Responnya cepet dan ramah.", stars: 5 },
+    ];
+
+    const FAQS = [
+      { q: "Gimana cara pembayarannya?", a: "Semua pembayaran disepakati dan dilakukan langsung dengan tim/mitra kami saat konfirmasi di WhatsApp — bisa tunai atau transfer, sesuai kesepakatan. Panggil Kami tidak memproses pembayaran online lewat website." },
+      { q: "Apakah ada jumlah pesanan minimum?", a: "Untuk jasa bersih kamar/rumah, belanja, jastip, maupun antar barang tidak ada minimum khusus. Cukup sebutkan kebutuhanmu saat chat WhatsApp untuk konfirmasi estimasi biaya." },
+      { q: "Area mana saja yang dilayani?", a: "Saat ini fokus di wilayah Laweyan, Serengan, Pasar Kliwon, Jebres, dan Banjarsari, termasuk area sekitar kampus di Solo. Di luar area itu, tetap boleh chat dulu untuk dicek." },
+      { q: "Berapa lama respon chat WhatsApp?", a: "Selama jam operasional (Senin–Sabtu 07.00–21.00, Minggu 09.00–17.00), tim kami biasanya membalas dalam hitungan menit." },
+      { q: "Bisa request jadwal di luar jam operasional?", a: "Bisa dicoba dengan chat WhatsApp terlebih dulu, nanti akan dicek ketersediaan mitra untuk jadwal darurat atau di luar jam normal." },
+      { q: "Apakah aman dan bisa dipercaya?", a: "Setiap penyedia jasa yang bergabung sudah melalui proses verifikasi dasar oleh tim Panggil Kami sebelum bisa menerima pesanan." },
+    ];
+
+    /* ============ HELPER: LINK WHATSAPP & FORMAT ============ */
+    function buildWaLink(serviceName) {
+      const msg =
+        `Halo Panggil Kami, saya mau pesan jasa:
+• Layanan: ${serviceName || "..."}
+• Nama: ...
+• Hari / Tgl: ...
+• Jam: ...
+• Alamat / Kos: ...
+• Kebutuhan khusus: ...
+
+Mohon konfirmasi ketersediaan & harganya. Terima kasih!`;
+      return `https://wa.me/${CONFIG.waNumber}?text=${encodeURIComponent(msg)}`;
+    }
+    function buildGenericWaLink() {
+      const msg =
+        `Halo Panggil Kami, saya mau pesan / tanya jasa harian di Solo.
+• Layanan: ...
+• Nama: ...
+• Hari / Tgl: ...
+• Jam: ...
+• Alamat / Kos: ...
+• Kebutuhan khusus: ...
+
+Mohon info ketersediaan & estimasi biayanya. Terima kasih!`;
+      return `https://wa.me/${CONFIG.waNumber}?text=${encodeURIComponent(msg)}`;
+    }
+    function buildMitraWaLink() {
+      const msg = `Halo Panggil Kami, saya tertarik mendaftar sebagai mitra penyedia jasa di Solo. Boleh minta info pendaftarannya?`;
+      return `https://wa.me/${CONFIG.waNumber}?text=${encodeURIComponent(msg)}`;
+    }
+    function showWaToast() {
+      const toastEl = document.getElementById('waToast');
+      new bootstrap.Toast(toastEl, { delay: 1800 }).show();
+    }
+    function copyWaFormatKontak(btn) {
+      const text = document.getElementById('waFormatKontakText').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check2 text-success me-1"></i>Tersalin!';
+        btn.classList.add('btn-success', 'text-white');
+        btn.classList.remove('btn-outline-secondary');
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove('btn-success', 'text-white');
+          btn.classList.add('btn-outline-secondary');
+        }, 2000);
+      }).catch(() => {
+        alert("Gagal menyalin format secara otomatis. Silakan salin teks secara manual.");
+      });
+    }
+    function copyWaFormatDetail(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="bi bi-check2 text-success me-1"></i>Tersalin!';
+        btn.classList.add('btn-success', 'text-white');
+        btn.classList.remove('btn-outline-secondary');
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.classList.remove('btn-success', 'text-white');
+          btn.classList.add('btn-outline-secondary');
+        }, 2000);
+      }).catch(() => {
+        alert("Gagal menyalin format secara otomatis. Silakan salin teks secara manual.");
+      });
+    }
+    function wireWaButtons() {
+      document.querySelectorAll('#navWaBtn,#heroWaBtn,#kontakWaBtn,#fabWa,#waFooter').forEach(btn => {
+        btn.href = buildGenericWaLink();
+        btn.target = "_blank"; btn.rel = "noopener";
+        btn.addEventListener('click', () => showWaToast());
+      });
+      const mitra = document.getElementById('mitraWaBtn');
+      mitra.href = buildMitraWaLink(); mitra.target = "_blank"; mitra.rel = "noopener";
+      mitra.addEventListener('click', () => showWaToast());
+
+      [document.getElementById('igBtn'), document.getElementById('igFooter')].forEach(a => { a.href = CONFIG.instagram; a.target = "_blank"; a.rel = "noopener"; });
+      [document.getElementById('tiktokBtn'), document.getElementById('tiktokFooter')].forEach(a => { a.href = CONFIG.tiktok; a.target = "_blank"; a.rel = "noopener"; });
+    }
+
+    /* ============ RENDER LAYANAN ============ */
+    const CATEGORIES = ["Semua", ...new Set(SERVICES.map(s => s.cat))];
+    let activeCat = "Semua";
+    let query = "";
+
+    function renderPills() {
+      const wrap = document.getElementById('filterPills');
+      wrap.innerHTML = CATEGORIES.map(c =>
+        `<button type="button" class="filter-pill ${c === activeCat ? 'active' : ''}" data-cat="${c}">${c}</button>`
+      ).join('');
+      wrap.querySelectorAll('.filter-pill').forEach(p => {
+        p.addEventListener('click', () => { activeCat = p.dataset.cat; renderPills(); renderServices(); });
+      });
+    }
+
+    function renderServices() {
+      const grid = document.getElementById('serviceGrid');
+      const empty = document.getElementById('emptyState');
+      const filtered = SERVICES.filter(s => {
+        const matchCat = activeCat === "Semua" || s.cat === activeCat;
+        const matchQuery = (s.name + s.short + s.cat).toLowerCase().includes(query.toLowerCase());
+        return matchCat && matchQuery;
+      });
+      grid.innerHTML = filtered.map(s => `
+    <div class="col-sm-6 col-lg-4">
+      <div class="svc-card" data-id="${s.id}" tabindex="0" role="button" aria-label="Lihat detail ${s.name}">
+        <img class="svc-img" src="${s.img}" alt="Foto layanan ${s.name} di Solo" loading="lazy">
+        <div class="svc-body">
+          <span class="svc-cat">${s.cat}</span>
+          <span class="svc-name">${s.name}</span>
+          <span class="svc-desc">${s.short}</span>
+          <div class="svc-footer">
+            <span class="svc-price">${s.price}</span>
+            <i class="bi bi-arrow-up-right-circle-fill fs-5" style="color:var(--teal-700)"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+      empty.classList.toggle('d-none', filtered.length > 0);
+      grid.querySelectorAll('.svc-card').forEach(card => {
+        card.addEventListener('click', () => openDetail(card.dataset.id));
+        card.addEventListener('keypress', (e) => { if (e.key === 'Enter') openDetail(card.dataset.id); });
+      });
+    }
+
+    function openDetail(id) {
+      const s = SERVICES.find(x => x.id === id);
+      if (!s) return;
+      document.getElementById('detailModalLabel').textContent = s.name;
+      const orderFormatText = `Halo Panggil Kami, saya mau pesan jasa:
+• Layanan: ${s.name}
+• Nama: ...
+• Hari / Tgl: ...
+• Jam: ...
+• Alamat / Kos: ...
+• Kebutuhan khusus: ...
+
+Mohon konfirmasi ketersediaan & harganya. Terima kasih!`;
+
+      document.getElementById('detailModalBody').innerHTML = `
+    <img src="${s.img}" class="detail-img mb-3" alt="Foto layanan ${s.name}" loading="lazy">
+    <span class="badge-soft mb-2 d-inline-block">${s.cat}</span>
+    <p class="text-secondary">${s.desc}</p>
+    <div class="detail-price-box mb-3">
+      <div class="fw-bold mb-2" style="color:var(--teal-900)">Pilihan Paket & Harga</div>
+      <ul class="detail-list ps-3 mb-0">${s.packages.map(p => `<li>${p}</li>`).join('')}</ul>
+    </div>
+    
+    <!-- Format Pesan WhatsApp Modal -->
+    <div class="p-3 bg-light border rounded-3 mb-2 text-start">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="small fw-bold text-dark"><i class="bi bi-whatsapp text-success me-1"></i>Format Chat WhatsApp</span>
+        <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2" style="font-size:.75rem"
+          id="btnCopyDetail"><i class="bi bi-clipboard me-1"></i>Salin Format</button>
+      </div>
+      <pre class="mb-0 text-secondary" style="font-size:.8rem; white-space:pre-wrap; font-family:inherit; line-height:1.55;" id="waFormatDetailText">${orderFormatText}</pre>
+    </div>
+    <p class="small text-secondary mb-0"><i class="bi bi-info-circle me-1"></i>Harga final disepakati saat konfirmasi via WhatsApp.</p>
+  `;
+      const copyBtn = document.getElementById('btnCopyDetail');
+      if (copyBtn) {
+        copyBtn.onclick = () => copyWaFormatDetail(copyBtn, orderFormatText);
+      }
+      const waBtn = document.getElementById('detailWaBtn');
+      waBtn.href = buildWaLink(s.name);
+      waBtn.target = "_blank"; waBtn.rel = "noopener";
+      waBtn.onclick = () => showWaToast();
+      new bootstrap.Modal(document.getElementById('detailModal')).show();
+    }
+
+    /* ============ RENDER AREA ============ */
+    function renderAreas() {
+      document.getElementById('areaGrid').innerHTML = AREAS.map(a => `
+        <div class="col-sm-6 col-lg-4">
+          <a href="${a.mapUrl}" target="_blank" rel="noopener" class="area-card">
+            <div class="area-card-icon"><i class="bi ${a.icon}"></i></div>
+            <div class="area-card-content">
+              <div class="area-card-title">${a.name}</div>
+              <div class="area-card-sub"><i class="bi bi-geo-alt me-1"></i>${a.landmark}</div>
+            </div>
+            <div class="area-maps-btn" title="Buka patokan lokasi di Google Maps"><i class="bi bi-arrow-up-right"></i></div>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    /* ============ RENDER TESTIMONI ============ */
+    function renderTestimonials() {
+      document.getElementById('testiGrid').innerHTML = TESTIMONIALS.map(t => `
+    <div class="col-md-4">
+      <div class="testi-card">
+        <div class="testi-stars">${'★'.repeat(t.stars)}${'☆'.repeat(5 - t.stars)}</div>
+        <p class="mt-2 mb-0">"${t.text}"</p>
+        <div class="testi-name">${t.name}</div>
+        <div class="testi-role">${t.role}</div>
+      </div>
+    </div>
+  `).join('');
+    }
+
+    /* ============ RENDER FAQ ============ */
+    function renderFaq() {
+      document.getElementById('faqAccordion').innerHTML = FAQS.map((f, i) => `
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button ${i > 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#faq${i}">${f.q}</button>
+      </h2>
+      <div id="faq${i}" class="accordion-collapse collapse ${i === 0 ? 'show' : ''}" data-bs-parent="#faqAccordion">
+        <div class="accordion-body text-secondary small">${f.a}</div>
+      </div>
+    </div>
+  `).join('');
+    }
+
+    /* ============ SEARCH INPUT ============ */
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      query = e.target.value; renderServices();
+    });
+
+    /* ============ INIT ============ */
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderPills(); renderServices(); renderAreas(); renderTestimonials(); renderFaq(); wireWaButtons();
+
+    /* ============ PWA: MANIFEST via Blob ============ */
+    const manifest = {
+      name: "Panggil Kami - Jasa Harian Solo",
+      short_name: "Panggil Kami",
+      description: "Pesan jasa bersih-bersih, belanja, dan titip beli di Solo lewat WhatsApp.",
+      start_url: ".",
+      display: "standalone",
+      background_color: "#FFFFFF",
+      theme_color: "#0E7C86",
+      icons: [
+        { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230E7C86'/%3E%3Ctext x='50' y='67' font-size='44' font-weight='800' letter-spacing='-1' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3EPK%3C/text%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml" },
+        { src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230E7C86'/%3E%3Ctext x='50' y='67' font-size='44' font-weight='800' letter-spacing='-1' text-anchor='middle' fill='white' font-family='Arial, sans-serif'%3EPK%3C/text%3E%3C/svg%3E", sizes: "512x512", type: "image/svg+xml" }
+      ]
+    };
+    const manifestBlob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+    const manifestLink = document.createElement('link');
+    manifestLink.rel = "manifest";
+    manifestLink.href = URL.createObjectURL(manifestBlob);
+    document.head.appendChild(manifestLink);
+
+    /* ============ PWA: SERVICE WORKER via Blob (offline shell) ============ */
+    const swSource = `
+  const CACHE = 'panggil-kami-v1';
+  self.addEventListener('install', (e)=>{
+    self.skipWaiting();
+    e.waitUntil(caches.open(CACHE).then(c=>c.add(self.registration.scope)));
+  });
+  self.addEventListener('activate', (e)=>{ self.clients.claim(); });
+  self.addEventListener('fetch', (e)=>{
+    if(e.request.method !== 'GET') return;
+    e.respondWith(
+      caches.match(e.request).then(cached=>{
+        const fetchPromise = fetch(e.request).then(res=>{
+          if(res && res.status===200 && e.request.url.startsWith(self.location.origin)){
+            caches.open(CACHE).then(c=>c.put(e.request, res.clone()));
+          }
+          return res;
+        }).catch(()=> cached);
+        return cached || fetchPromise;
+      })
+    );
+  });
+`;
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        try {
+          const swBlob = new Blob([swSource], { type: 'text/javascript' });
+          const swUrl = URL.createObjectURL(swBlob);
+          navigator.serviceWorker.register(swUrl).catch(() => { /* offline mode gagal, tetap lanjut online */ });
+        } catch (err) { /* browser tidak mendukung, aman diabaikan */ }
+      });
+    }
+  </script>
+</body>
+
+</html>
