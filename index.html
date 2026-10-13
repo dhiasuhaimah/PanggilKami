@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PanggilKami - Butuh Bantuan? PanggilKami.</title>
+  <meta name="description" content="Marketplace jasa on-demand penghubung pelanggan dengan penyedia jasa terverifikasi untuk bersih-bersih, antar-jemput barang, belanja & jastip, serta bantuan pekerjaan rumah di Solo Raya.">
+  <meta name="keywords" content="PanggilKami, jasa bersih-bersih solo, kurir kilat solo, jastip kuliner solo, tukang harian solo, bantuan rumah tangga">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220%22%3E<text y=%2226%22 font-size=%2226%22>⚡</text></svg>">
+
+  <!-- Google Fonts: Playfair Display (Serif), Plus Jakarta Sans & Outfit (Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="botanic-luxury-theme">
+
+  <!-- ===================================================================
+       1. AUTH GATEKEEPER OVERLAY (WAJIB DAFTAR / LOGIN DI AWAL)
+       =================================================================== -->
+  <div class="auth-gatekeeper-overlay" id="authGatekeeperOverlay" style="display: none;">
+    <div class="gatekeeper-card">
+      <div class="gatekeeper-header">
+        <div class="gatekeeper-logo">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <h2 class="gatekeeper-brand">PANGGIL KAMI</h2>
+        <span class="gatekeeper-tagline">“Butuh Bantuan? PanggilKami.”</span>
+        <p class="gatekeeper-intro">
+          Selamat datang di platform jasa on-demand Solo Raya. Silakan masuk atau buat akun baru terlebih dahulu untuk mengakses layanan dan dashboard kami.
+        </p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="gatekeeper-tabs">
+        <button type="button" class="gatekeeper-tab-btn active" id="gateTabLoginBtn" onclick="switchGatekeeperTab('login')">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Masuk Akun
+        </button>
+        <button type="button" class="gatekeeper-tab-btn" id="gateTabRegBtn" onclick="switchGatekeeperTab('register')">
+          <i class="fa-solid fa-user-plus"></i> Daftar Akun
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="gatekeeperLoginForm" class="gatekeeper-form" onsubmit="handleGatekeeperLogin(event)">
+        <div class="form-group">
+          <label class="form-label"><i class="fa-solid fa-envelope"></i> Alamat Email</label>
+          <input type="email" id="gateLoginEmail" class="form-control" required placeholder="nama@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><i class="fa-solid fa-lock"></i> Kata Sandi (Password)</label>
+          <input type="password" id="gateLoginPassword" class="form-control" required placeholder="Masukkan kata sandi...">
+        </div>
+        <button type="submit" class="btn btn-gold btn-block" id="btnGateLoginSubmit">
+          Masuk & Buka Beranda <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <div style="text-align: center; margin-top: 18px;">
+          <span class="switch-tab-prompt">Belum punya akun?</span>
+          <button type="button" class="switch-tab-btn-link" onclick="switchGatekeeperTab('register')" style="background: none; border: none; cursor: pointer; margin-left: 4px; font-size: 0.9rem;">
+            Daftar di sini
+          </button>
+        </div>
+      </form>
+
+      <!-- Register Form -->
+      <form id="gatekeeperRegisterForm" class="gatekeeper-form" style="display: none;" onsubmit="handleGatekeeperRegister(event)">
+        <div class="form-group">
+          <label class="form-label"><i class="fa-solid fa-user"></i> Nama Lengkap</label>
+          <input type="text" id="gateRegName" class="form-control" required placeholder="Contoh: Budi Santoso">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><i class="fa-solid fa-envelope"></i> Alamat Email</label>
+          <input type="email" id="gateRegEmail" class="form-control" required placeholder="nama@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><i class="fa-solid fa-lock"></i> Kata Sandi (Password)</label>
+          <input type="password" id="gateRegPassword" class="form-control" minlength="6" required placeholder="Minimal 6 karakter...">
+        </div>
+        <button type="submit" class="btn btn-gold btn-block" id="btnGateRegSubmit">
+          Daftar Akun & Buka Beranda <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <div style="text-align: center; margin-top: 18px;">
+          <span class="switch-tab-prompt">Sudah punya akun?</span>
+          <button type="button" class="switch-tab-btn-link" onclick="switchGatekeeperTab('login')" style="background: none; border: none; cursor: pointer; margin-left: 4px; font-size: 0.9rem;">
+            Masuk di sini
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       2. HEADER & PROPORTIONALLY CENTERED NAVBAR
+       =================================================================== -->
+  <header class="navbar-wrap">
+    <div class="container navbar-container">
+      <!-- Brand Logo -->
+      <a href="#beranda" class="brand-logo" id="brandLogoLink">
+        <div class="brand-icon">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">PanggilKami</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu (Centered & Proportional) -->
+      <nav class="nav-center-wrapper">
+        <ul class="nav-menu">
+          <li><a href="#beranda" class="nav-link active" data-view="beranda">Home</a></li>
+          <li><a href="#layanan" class="nav-link" data-view="layanan">Layanan</a></li>
+          <li><a href="#harga" class="nav-link" data-view="harga">Harga</a></li>
+          <li><a href="#status" class="nav-link" data-view="status">Pesanan Saya</a></li>
+          <li><a href="#kontak" class="nav-link" data-view="kontak">Kontak</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Actions (Right) -->
+      <div class="nav-actions">
+        <!-- Keranjang Button with Badge -->
+        <button class="nav-cart-btn" onclick="openCartModal()" id="navCartBtn" title="Keranjang Belanja">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="nav-cart-badge" id="navCartBadge">0</span>
+        </button>
+
+        <!-- User Profile Container -->
+        <div class="nav-user-container" id="navUserContainer">
+          <button class="nav-auth-btn" id="navAuthBtn" onclick="openGatekeeperOverlay()" title="Masuk / Daftar Akun">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>Masuk</span>
+          </button>
+        </div>
+
+        <a href="#layanan" class="btn-gold nav-order-cta" id="navPesanBtn">
+          Pesan Sekarang
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="mobile-toggle" id="mobileToggle" aria-label="Menu Navigasi">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer">
+    <div class="drawer-header">
+      <div class="brand-logo">
+        <div class="brand-icon" style="width: 34px; height: 34px; font-size: 1rem;">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <span class="brand-name" style="font-size: 1.15rem; color: #FFFFFF;">PanggilKami</span>
+      </div>
+      <button id="drawerClose" style="background: none; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer;">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- User Profile / Login status in Mobile Drawer -->
+    <div id="drawerUserContainer" style="margin-bottom: 15px;"></div>
+
+    <div style="background: rgba(229, 184, 105, 0.12); border: 1px solid rgba(229, 184, 105, 0.25); border-radius: var(--radius-sm); padding: 8px 12px; font-size: 0.78rem; font-weight: 700; color: var(--accent-gold); margin-bottom: 15px; display: flex; align-items: center; gap: 6px;">
+      <i class="fa-regular fa-clock"></i> Buka Setiap Hari · 06.00 - 00.00 WIB
+    </div>
+
+    <ul class="drawer-nav-list">
+      <li><a href="#beranda" class="drawer-link active" data-view="beranda"><i class="fa-solid fa-house"></i> Home</a></li>
+      <li><a href="#layanan" class="drawer-link" data-view="layanan"><i class="fa-solid fa-layer-group"></i> Layanan</a></li>
+      <li><a href="#harga" class="drawer-link" data-view="harga"><i class="fa-solid fa-tags"></i> Harga</a></li>
+      <li><a href="#status" class="drawer-link" data-view="status"><i class="fa-solid fa-receipt"></i> Pesanan Saya</a></li>
+      <li><a href="#kontak" class="drawer-link" data-view="kontak"><i class="fa-solid fa-headset"></i> Kontak</a></li>
+      <li id="drawerAdminItem" style="display: none;"><a href="#admin" class="drawer-link" data-view="admin"><i class="fa-solid fa-shield-halved" style="color: var(--accent-gold);"></i> Dashboard Admin</a></li>
+    </ul>
+
+    <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);">
+      <button onclick="openCartModal(); closeDrawer();" class="btn btn-gold btn-block" style="margin-bottom: 10px;">
+        <i class="fa-solid fa-cart-shopping"></i> Buka Keranjang (<span id="drawerCartBadge">0</span>)
+      </button>
+      <a href="#layanan" class="btn btn-outline-gold btn-block" onclick="closeDrawer()">
+        Mulai Pesan Layanan
+      </a>
+      <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
+        © 2026 PanggilKami · Solo Baru, Sukoharjo
+      </p>
+    </div>
+  </aside>
+
+
+  <!-- ===================================================================
+       MAIN CONTAINER & DYNAMIC APPLICATION VIEWS
+       =================================================================== -->
+  <main style="flex-grow: 1;">
+
+    <!-- ==================== VIEW 1: BERANDA (HOMEPAGE) ==================== -->
+    <section class="app-view" id="view-beranda">
+      
+      <!-- HERO SECTION (BOTANIC LUXURY DEEP FOREST GREEN & CHAMPAGNE GOLD) -->
+      <div class="hero-section botanic-hero">
+        <div class="container hero-grid">
+          
+          <div class="hero-content">
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+              <span class="badge badge-gold">
+                <i class="fa-solid fa-bolt"></i> PanggilKami On-Demand
+              </span>
+              <span class="badge badge-forest">
+                <i class="fa-regular fa-clock"></i> Buka Setiap Hari · 06.00 - 00.00 WIB
+              </span>
+            </div>
+
+            <h1 class="hero-headline botanic-serif">
+              Solusi Andal untuk Menyelesaikan Kebutuhan Harian Anda.
+              <span class="hero-tagline-gold">“Butuh Bantuan? PanggilKami.”</span>
+            </h1>
+
+            <p class="hero-subtext">
+              Platform marketplace jasa terpercaya di Solo Baru, Sukoharjo, dan Solo Raya. Layanan bersih-bersih tempat tinggal, kurir kilat antar barang, belanja & jastip, serta bantuan perbaikan rumah — mitra muda terlatih kami siap melayani dengan standar terbaik.
+            </p>
+
+            <!-- Pill Action Buttons -->
+            <div class="hero-actions-row">
+              <a href="#layanan" class="btn btn-gold btn-pill">
+                Jelajahi Layanan <i class="fa-solid fa-arrow-right"></i>
+              </a>
+              <a href="https://wa.me/6282283883580?text=Halo%20Customer%20Service%20PanggilKami,%20saya%20butuh%20bantuan%20layanan" target="_blank" class="btn btn-outline-gold btn-pill">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.15rem; color: #25D366;"></i> Konsultasi WhatsApp
+              </a>
+            </div>
+
+            <!-- Trust Bar -->
+            <div class="hero-trust-bar">
+              <div class="trust-item">
+                <i class="fa-solid fa-star" style="color: var(--accent-gold);"></i>
+                <span>Rating 4.9/5 (12.400+ Tugas Tuntas)</span>
+              </div>
+              <div class="trust-item">
+                <i class="fa-solid fa-shield-check" style="color: var(--accent-gold);"></i>
+                <span>Mitra Terverifikasi & Amanah</span>
+              </div>
+              <div class="trust-item">
+                <i class="fa-solid fa-rotate-left" style="color: var(--accent-gold);"></i>
+                <span>Garansi 100% Kepuasan</span>
+              </div>
+            </div>
+
+            <!-- Quick Order Card -->
+            <div class="hero-quick-box">
+              <div class="quick-box-title">
+                <i class="fa-solid fa-bolt" style="color: var(--accent-gold);"></i>
+                <span>Pesan Kilat: Pilih Kebutuhan Layanan Anda</span>
+              </div>
+              <div class="quick-box-inputs">
+                <div class="input-field-wrap">
+                  <i class="fa-solid fa-broom"></i>
+                  <select class="form-select" id="quickCategorySelect">
+                    <option value="cleaning">Bersih-Bersih Rumah</option>
+                    <option value="delivery">Antar Barang</option>
+                    <option value="groceries">Belanja Kebutuhan</option>
+                    <option value="jastip">Jasa Titip</option>
+                    <option value="handyman">Bantuan Pekerjaan Rumah Sederhana</option>
+                  </select>
+                </div>
+
+                <div class="input-field-wrap">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <select class="form-select" id="quickAreaSelect">
+                    <option value="solo-baru">Solo Baru (Sukoharjo - Area Utama)</option>
+                    <option value="sukoharjo-kota">Sukoharjo Kota & Sekitarnya (Area Utama)</option>
+                    <option value="solo-tengah">Solo Kota (Slamet Riyadi / Gladak)</option>
+                    <option value="ums-kartasura">UMS Pabelan / Kartasura</option>
+                    <option value="solo-jebres">Jebres / UNS Kentingan</option>
+                    <option value="colomadu">Colomadu / Bandara</option>
+                    <option value="palur-jaten">Palur / Karanganyar Barat</option>
+                    <option value="karanganyar-kota">Karanganyar Kota</option>
+                    <option value="custom">Lokasi Saya Tidak Ada di Daftar (Input Manual)</option>
+                  </select>
+                </div>
+
+                <button class="btn btn-gold" onclick="executeQuickOrder()">
+                  Pesan Kilat <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Hero Media Right: Authentic Courier Model in Black T-Shirt -->
+          <div class="hero-media-wrap">
+            <div class="hero-main-img-card">
+              <img src="https://images.unsplash.com/photo-1526367790999-0150786686a2?auto=format&fit=crop&w=800&q=80" alt="Mitra Antar-Jemput Resmi PanggilKami" id="heroBannerImg" class="hero-model-1to1-img">
+              <div class="hero-img-caption-glass">
+                <div class="caption-brand-tag">
+                  <i class="fa-solid fa-circle-check" style="color: var(--accent-gold);"></i>
+                  <span>Mitra Resmi Terverifikasi</span>
+                </div>
+                <strong>Seragam Kaos Hitam "PANGGIL KAMI"</strong>
+              </div>
+            </div>
+
+            <!-- Floating Stat Badges -->
+            <div class="floating-stat-badge stat-badge-top">
+              <div class="stat-icon bg-gold-subtle">
+                <i class="fa-solid fa-stopwatch" style="color: var(--accent-gold);"></i>
+              </div>
+              <div class="stat-text">
+                <h4>Mitra Tiba ~15 Mnt</h4>
+                <p>Respon Cepat & Tepat Waktu</p>
+              </div>
+            </div>
+
+            <div class="floating-stat-badge stat-badge-bottom">
+              <div class="stat-icon bg-forest-subtle">
+                <i class="fa-solid fa-wallet" style="color: #10B981;"></i>
+              </div>
+              <div class="stat-text">
+                <h4>Mulai Rp 15.000</h4>
+                <p>Tarif Transparan Tanpa Biaya Tersembunyi</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ===================================================================
+           7. 4 PILAR SOLUSI UTAMA (RATA TENGAH & HEADLINE BESAR PROPORSIONAL)
+           =================================================================== -->
+      <section class="section section-solution-pillars">
+        <div class="container">
+          <div class="text-center section-header-centered">
+            <span class="section-tag-gold">
+              <i class="fa-solid fa-bolt"></i> 4 Pilar Keunggulan
+            </span>
+            <h2 class="section-title-serif">Solusi Andal Setiap Kebutuhan Anda</h2>
+            <p class="section-desc-centered">
+              Didesain khusus untuk memberikan kemudahan, kecepatan, dan ketenangan pikiran dalam menuntaskan aktivitas harian masyarakat Solo Raya.
+            </p>
+          </div>
+
+          <div class="pillars-grid-center">
+            <!-- Pilar 1: Andalan Mahasiswa -->
+            <div class="pillar-card-botanic">
+              <div class="pillar-botanic-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <h3 class="pillar-botanic-headline">Andalan Mahasiswa</h3>
+              <p class="pillar-botanic-desc">
+                Solusi andalan anak kos dan mahasiswa UMS, UNS, & sekitarnya. Kamar kosan rapi bersih, titip fotokopi dokumen, hingga antar barang saat jadwal kuliah padat.
+              </p>
+              <div class="pillar-tag-center">
+                <span>Favorit Kampus</span>
+              </div>
+            </div>
+
+            <!-- Pilar 2: Layanan Darurat -->
+            <div class="pillar-card-botanic">
+              <div class="pillar-botanic-icon">
+                <i class="fa-solid fa-truck-medical"></i>
+              </div>
+              <h3 class="pillar-botanic-headline">Layanan Darurat</h3>
+              <p class="pillar-botanic-desc">
+                Kunci tertinggal di kos, dokumen ujian penting terlupa di rumah, atau kran air bocor mendadak? Tim siaga kami siap meluncur dalam 15 menit ke lokasi Anda.
+              </p>
+              <div class="pillar-tag-center">
+                <span>Respon Kilat 15 Mnt</span>
+              </div>
+            </div>
+
+            <!-- Pilar 3: Pesan Kilat -->
+            <div class="pillar-card-botanic">
+              <div class="pillar-botanic-icon">
+                <i class="fa-solid fa-bolt"></i>
+              </div>
+              <h3 class="pillar-botanic-headline">Pesan Kilat</h3>
+              <p class="pillar-botanic-desc">
+                Proses pemesanan instan tanpa formulir berbelit. Cukup pilih layanan, tambahkan ke keranjang, bayar dengan QRIS dinamis, mitra langsung otw ke alamat.
+              </p>
+              <div class="pillar-tag-center">
+                <span>Order Tanpa Ribet</span>
+              </div>
+            </div>
+
+            <!-- Pilar 4: Solusi Anti Mager -->
+            <div class="pillar-card-botanic">
+              <div class="pillar-botanic-icon">
+                <i class="fa-solid fa-couch"></i>
+              </div>
+              <h3 class="pillar-botanic-headline">Solusi Anti Mager</h3>
+              <p class="pillar-botanic-desc">
+                Bebaskan waktu istirahat dan weekend Anda. Serahkan urusan belanja bahan masakan pasar, angkut barang perabot, dan bersih-bersih rumah pada mitra kami.
+              </p>
+              <div class="pillar-tag-center">
+                <span>Nikmati Waktu Luang</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================================================================
+           6. BRANDING & SERAGAM RESMI MITRA (WAJIB KAOS HITAM "PANGGIL KAMI")
+           =================================================================== -->
+      <section class="section section-uniform-showcase">
+        <div class="container">
+          <div class="uniform-banner-grid">
+            <div class="uniform-media-box">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" alt="Mitra Antar-Jemput Resmi Kaos Hitam PANGGIL KAMI" class="uniform-1to1-img">
+              <div class="uniform-badge-overlay">
+                <i class="fa-solid fa-shield-halved" style="color: var(--accent-gold);"></i>
+                <div>
+                  <strong>Standar Seragam Wajib</strong>
+                  <span>Kaos Hitam Tulisan "PANGGIL KAMI"</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="uniform-info-box">
+              <span class="section-tag-gold"><i class="fa-solid fa-shirt"></i> Identitas & Standar Keamanan</span>
+              <h2 class="section-title-serif">Mitra Resmi Berkaos Hitam "PANGGIL KAMI"</h2>
+              <p class="uniform-subtext">
+                Untuk menjamin rasa aman dan identitas yang jelas saat kunjungan, seluruh model dan mitra antar-jemput kami <strong>wajib mengenakan kaos hitam elegan bertuliskan "PANGGIL KAMI"</strong> (huruf kapital, bersih, dan modern) di dada.
+              </p>
+
+              <div class="uniform-checklist">
+                <div class="uniform-check-item">
+                  <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                  <div>
+                    <strong>Kaos Hitam Standar:</strong> Warna hitam elegan dengan tulisan depan "PANGGIL KAMI" (bukan kemeja, bukan polo).
+                  </div>
+                </div>
+                <div class="uniform-check-item">
+                  <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                  <div>
+                    <strong>Identitas Terverifikasi:</strong> Setiap mitra membawa kartu identitas resmi dan telah lolos pemeriksaan SKCK.
+                  </div>
+                </div>
+                <div class="uniform-check-item">
+                  <div class="check-icon"><i class="fa-solid fa-check"></i></div>
+                  <div>
+                    <strong>SOP Ramah & Profesional:</strong> Menjunjung tinggi etika kesopanan, menjaga privasi barang, dan ketepatan waktu.
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 25px;">
+                <a href="#layanan" class="btn btn-gold">
+                  Pesan Kurir Antar-Jemput <i class="fa-solid fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4 LAYANAN UTAMA PANGGILKAMI -->
+      <section class="section">
+        <div class="container">
+          <div class="text-center">
+            <span class="section-tag">4 Layanan Resmi</span>
+            <h2 class="section-title">4 Layanan Utama PanggilKami</h2>
+            <p class="section-desc">Pilih bantuan yang Anda butuhkan. Seluruh mitra terverifikasi, ramah, dan siap hadir tepat waktu dengan seragam kaos hitam resmi PANGGIL KAMI.</p>
+          </div>
+
+          <div class="category-cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
+            <!-- 1. Jasa Titip Barang -->
+            <div class="category-card" onclick="filterAndNavigate('jastip')">
+              <span class="badge badge-teal category-card-badge">Populer</span>
+              <div class="category-icon-box">
+                <i class="fa-solid fa-bag-shopping"></i>
+              </div>
+              <h3 class="category-title">Jasa Titip Barang</h3>
+              <p class="category-desc">Titip oleh-oleh legendaris Solo (Serabi Notosuman, Orion), kuliner viral, belanja mall, dan pesanan apa saja tanpa antre.</p>
+              <span class="category-card-action">
+                Lihat Layanan <i class="fa-solid fa-chevron-right"></i>
+              </span>
+            </div>
+
+            <!-- 2. Antar Barang Apa Saja -->
+            <div class="category-card" onclick="filterAndNavigate('delivery')">
+              <span class="badge badge-amber category-card-badge">Layanan Unggulan</span>
+              <div class="category-icon-box">
+                <i class="fa-solid fa-truck-fast"></i>
+              </div>
+              <h3 class="category-title">Antar Barang Apa Saja</h3>
+              <p class="category-desc">Kirim obat apotek darurat 24 jam, barang belanjaan, dokumen penting, makanan, perlengkapan kuliah/kerja, hingga koper kos.</p>
+              <span class="category-card-action">
+                Lihat Layanan <i class="fa-solid fa-chevron-right"></i>
+              </span>
+            </div>
+
+            <!-- 3. Antar Jemput Orang -->
+            <div class="category-card" onclick="filterAndNavigate('ride')">
+              <span class="badge badge-emerald category-card-badge">Aman & Nyaman</span>
+              <div class="category-icon-box">
+                <i class="fa-solid fa-motorcycle"></i>
+              </div>
+              <h3 class="category-title">Antar Jemput Orang</h3>
+              <p class="category-desc">Antar jemput mahasiswa & pekerja ke kampus UMS, UNS, stasiun Solo Balapan, kantor, dan RS dengan helm bersih & pengemudi santun.</p>
+              <span class="category-card-action">
+                Lihat Layanan <i class="fa-solid fa-chevron-right"></i>
+              </span>
+            </div>
+
+            <!-- 4. Bersih-bersih Kamar / WC / Kos -->
+            <div class="category-card" onclick="filterAndNavigate('cleaning')">
+              <span class="badge badge-rose category-card-badge">Per Jam (2 Tier)</span>
+              <div class="category-icon-box">
+                <i class="fa-solid fa-broom"></i>
+              </div>
+              <h3 class="category-title">Bersih-bersih Kamar / WC / Kos</h3>
+              <p class="category-desc">Hitungan transparan PER JAM: Rp 20.000/jam untuk Ruangan Kecil & Rp 35.000/jam untuk Ruangan Besar. Sapu, pel wangi & sikat WC kinclong.</p>
+              <span class="category-card-action">
+                Lihat Layanan <i class="fa-solid fa-chevron-right"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURED POPULAR SERVICES -->
+      <section class="section" style="background: var(--neutral-50);">
+        <div class="container">
+          <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 35px; flex-wrap: wrap; gap: 15px;">
+            <div>
+              <span class="section-tag">Paling Banyak Diminati</span>
+              <h2 class="section-title" style="margin-bottom: 0;">Layanan Terpopuler Minggu Ini</h2>
+            </div>
+            <a href="#layanan" class="btn btn-outline btn-sm">
+              Lihat Semua Katalog <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="services-grid" id="featuredServicesList">
+            <!-- Populated via JavaScript -->
+          </div>
+        </div>
+      </section>
+
+      <!-- CARA KERJA (HOW IT WORKS) -->
+      <section class="section">
+        <div class="container">
+          <div class="text-center">
+            <span class="section-tag">Proses Mudah</span>
+            <h2 class="section-title">Tiga Langkah Praktis Pemesanan</h2>
+            <p class="section-desc">Hanya tiga langkah mudah melalui website untuk menyelesaikan kebutuhan Anda dengan cepat, aman, dan terstandarisasi.</p>
+          </div>
+
+          <div class="steps-grid">
+            <div class="step-card">
+              <span class="step-number">01</span>
+              <div class="step-icon-wrap">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+              </div>
+              <h3 class="step-title">1. Pilih Layanan & Jadwal</h3>
+              <p class="step-text">Tentukan jenis layanan yang Anda perlukan, paket durasi pengerjaan, waktu kunjungan, dan alamat Anda di area Solo Raya.</p>
+            </div>
+
+            <div class="step-card">
+              <span class="step-number">02</span>
+              <div class="step-icon-wrap">
+                <i class="fa-solid fa-calculator"></i>
+              </div>
+              <h3 class="step-title">2. Transparansi Biaya & Pembayaran</h3>
+              <p class="step-text">Sistem menghitung biaya jasa dan perjalanan secara otomatis. Selesaikan pembayaran dengan mudah via QRIS dinamis.</p>
+            </div>
+
+            <div class="step-card">
+              <span class="step-number">03</span>
+              <div class="step-icon-wrap">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+              <h3 class="step-title">3. Mitra Tiba & Pekerjaan Tuntas</h3>
+              <p class="step-text">Mitra profesional kami hadir tepat waktu menyelesaikan tugas dengan rapi, bergaransi 100% kepuasan pelanggan.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROMO BANNER SECTION -->
+      <section class="section" style="padding-top: 0;">
+        <div class="container">
+          <div style="background: linear-gradient(135deg, var(--teal-700) 0%, var(--teal-600) 50%, var(--teal-500) 100%); border-radius: var(--radius-xl); padding: 40px 30px; color: #FFFFFF; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; box-shadow: var(--shadow-xl); position: relative; overflow: hidden;">
+            <div style="position: absolute; right: -40px; top: -40px; width: 180px; height: 180px; background: rgba(255,255,255,0.08); border-radius: 50%;"></div>
+            <div style="position: absolute; left: -30px; bottom: -30px; width: 140px; height: 140px; background: rgba(255,255,255,0.08); border-radius: 50%;"></div>
+            
+            <span class="badge" style="background: var(--accent-amber); color: #000; font-weight: 800; font-size: 0.85rem;">
+              PROMO PENGGUNA BARU 🔥
+            </span>
+            <h2 style="font-size: 2rem; font-weight: 800; max-width: 650px; line-height: 1.3;">
+              Dapatkan Potongan Rp 15.000 untuk Pesanan Pertama Anda!
+            </h2>
+            <p style="font-size: 1rem; color: var(--teal-100); max-width: 520px;">
+              Gunakan kode voucher <strong style="background: rgba(255,255,255,0.25); padding: 4px 12px; border-radius: 8px; color: #fff; letter-spacing: 1px;">PANGGILBARU</strong> saat proses checkout di website.
+            </p>
+            <button class="btn btn-primary" style="background: #FFFFFF; color: var(--teal-800); font-weight: 800; box-shadow: 0 4px 15px rgba(0,0,0,0.15);" onclick="navigateTo('#layanan')">
+              Klaim & Pesan Sekarang <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIALS & ULASAN SHOPEE STYLE -->
+      <section class="section" id="section-ulasan-shopee">
+        <div class="container">
+          <div class="text-center" style="margin-bottom: 22px;">
+            <span class="section-tag-gold"><i class="fa-solid fa-star"></i> Penilaian Pembeli</span>
+            <h2 class="section-title-serif">Ulasan & Rating Pelanggan (Shopee-Style)</h2>
+            <p class="section-desc-centered" style="margin-bottom: 8px;">
+              Ulasan nyata dari pelanggan terverifikasi setelah pesanan berstatus <strong>SELESAI</strong>. Lengkap dengan rating bintang 1-5, komentar, dan foto hasil pekerjaan mitra.
+            </p>
+            <div style="display: inline-flex; align-items: center; gap: 8px; font-size: 0.74rem; color: #E5B869; background: rgba(229, 184, 105, 0.1); border: 1px solid rgba(229, 184, 105, 0.25); border-radius: 9999px; padding: 4px 14px; margin-top: 4px;">
+              <i class="fa-solid fa-arrows-left-right"></i> Bergeser perlahan otomatis · Arahkan kursor / sentuh untuk menjeda ulasan
+            </div>
+          </div>
+
+          <!-- Shopee Rating Summary Card (Compact) -->
+          <div class="shopee-rating-summary-card">
+            <div class="shopee-score-col">
+              <div class="shopee-score-number" id="shopeeAvgScore">4.9</div>
+              <div>
+                <div class="shopee-score-stars" id="shopeeAvgStars">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                </div>
+                <div class="shopee-score-label">dari 5 bintang (<span id="shopeeTotalReviewsCount">5</span> ulasan)</div>
+              </div>
+            </div>
+
+            <!-- Shopee Filter Buttons -->
+            <div class="shopee-filters-col">
+              <button type="button" class="shopee-filter-btn active" data-shopee-filter="all" onclick="filterShopeeReviews('all', this)">
+                Semua (<span id="countShopeeAll">5</span>)
+              </button>
+              <button type="button" class="shopee-filter-btn" data-shopee-filter="with_photo" onclick="filterShopeeReviews('with_photo', this)">
+                Dengan Foto (<span id="countShopeeWithPhoto">5</span>)
+              </button>
+              <button type="button" class="shopee-filter-btn" data-shopee-filter="5" onclick="filterShopeeReviews('5', this)">
+                5 Bintang (<span id="countShopee5">5</span>)
+              </button>
+              <button type="button" class="shopee-filter-btn" data-shopee-filter="4" onclick="filterShopeeReviews('4', this)">
+                4 Bintang (<span id="countShopee4">0</span>)
+              </button>
+            </div>
+          </div>
+
+          <!-- Shopee Reviews Horizontal Carousel Track -->
+          <div class="shopee-carousel-wrapper" id="shopeeCarouselWrapper">
+            <button type="button" class="shopee-carousel-arrow shopee-carousel-prev" onclick="scrollShopeeReviews(-1)" aria-label="Ulasan Sebelumnya">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="shopee-reviews-slider-track" id="shopeeReviewsList">
+              <!-- Injected via JavaScript -->
+            </div>
+            <button type="button" class="shopee-carousel-arrow shopee-carousel-next" onclick="scrollShopeeReviews(1)" aria-label="Ulasan Selanjutnya">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </section>
+
+    <!-- ==================== VIEW 2: LAYANAN (SERVICES CATALOG) ==================== -->
+    <section class="app-view section" id="view-layanan" style="display: none;">
+      <div class="container">
+        <div class="text-center">
+          <span class="section-tag">Katalog Lengkap</span>
+          <h1 class="section-title">Pilihan Layanan untuk Kebutuhan Anda</h1>
+          <p class="section-desc">Pilih kategori layanan, telusuri rincian paket pengerjaan, dan sesuaikan dengan aktivitas harian Anda.</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div style="max-width: 600px; margin: 0 auto 30px auto; position: relative;">
+          <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--teal-600); font-size: 1.1rem;"></i>
+          <input type="text" id="serviceSearchInput" class="form-control" style="padding-left: 48px; border-radius: var(--radius-full); font-size: 1rem; box-shadow: var(--shadow-sm);" placeholder="Cari layanan: kos, cuci piring, antar kunci, jastip...">
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="services-filter-bar">
+          <button class="filter-pill active" data-cat="all" onclick="filterServicesByCategory('all', this)">
+            Semua Layanan
+          </button>
+          <button class="filter-pill" data-cat="jastip" onclick="filterServicesByCategory('jastip', this)">
+            <i class="fa-solid fa-bag-shopping"></i> Jasa Titip Barang
+          </button>
+          <button class="filter-pill" data-cat="delivery" onclick="filterServicesByCategory('delivery', this)">
+            <i class="fa-solid fa-truck-fast"></i> Antar Barang Apa Saja
+          </button>
+          <button class="filter-pill" data-cat="ride" onclick="filterServicesByCategory('ride', this)">
+            <i class="fa-solid fa-motorcycle"></i> Antar Jemput Orang
+          </button>
+          <button class="filter-pill" data-cat="cleaning" onclick="filterServicesByCategory('cleaning', this)">
+            <i class="fa-solid fa-broom"></i> Bersih-bersih Kamar / WC / Kos
+          </button>
+        </div>
+
+        <!-- Catalog Grid -->
+        <div class="services-grid" id="allServicesList">
+          <!-- Populated via JavaScript -->
+        </div>
+
+        <!-- ===================================================================
+             3. SISTEM BELANJA & PESANAN CEPAT (ITEM TAMBAHAN & KUSTOM)
+             =================================================================== -->
+        <div class="quick-errands-container" style="margin-top: 55px;">
+          <div class="text-center" style="margin-bottom: 25px;">
+            <span class="section-tag-gold"><i class="fa-solid fa-cart-plus"></i> Belanja & Tambahan Satuan</span>
+            <h2 class="section-title-serif" style="font-size: 1.85rem;">Pilih Kebutuhan Belanja & Tambahan</h2>
+            <p class="section-desc-centered" style="margin-bottom: 0;">
+              Tambahkan kebutuhan harian, perlengkapan, atau titip beli langsung ke keranjang belanja Anda sebelum checkout.
+            </p>
+          </div>
+
+          <!-- Quick Items Grid -->
+          <div class="quick-items-grid" id="quickAddItemsList">
+            <!-- Populated via JavaScript by renderQuickAddItems() -->
+          </div>
+
+          <!-- Custom Item / Errand Request Builder -->
+          <div class="custom-request-box">
+            <div class="custom-request-header">
+              <div class="custom-icon-gold"><i class="fa-solid fa-pen-to-square"></i></div>
+              <div>
+                <h4 style="font-size: 1.15rem; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">Punya Kebutuhan Belanja / Titip Lainnya?</h4>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">Tuliskan barang atau jasa apa saja yang Anda perlukan. Masukkan jumlah dan estimasi biaya.</p>
+              </div>
+            </div>
+
+            <form id="customItemForm" onsubmit="handleCustomItemAdd(event)" class="custom-item-form-row">
+              <div class="form-group-flex">
+                <input type="text" id="customItemName" class="form-control" required placeholder="Contoh: Titip Beli Obat Flu di Apotek Kimia Farma / Galon Le Minerale...">
+              </div>
+              <div class="form-group-narrow">
+                <input type="number" id="customItemQty" class="form-control" min="1" value="1" required placeholder="Jumlah">
+              </div>
+              <div class="form-group-narrow">
+                <input type="number" id="customItemPrice" class="form-control" min="0" step="1000" placeholder="Estimasi Rp (Opsional)">
+              </div>
+              <button type="submit" class="btn btn-gold" style="white-space: nowrap;">
+                <i class="fa-solid fa-plus"></i> Tambah ke Keranjang
+              </button>
+            </form>
+          </div>
+
+          <!-- Floating/Inline Cart Trigger -->
+          <div class="cart-trigger-banner" id="cartTriggerBanner" style="display: none;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <i class="fa-solid fa-cart-shopping" style="font-size: 1.4rem; color: var(--accent-gold);"></i>
+              <div>
+                <strong id="bannerCartItemsText">0 Item di Keranjang</strong>
+                <span id="bannerCartTotalText" style="display: block; font-size: 0.85rem; color: var(--accent-gold);">Total: Rp 0</span>
+              </div>
+            </div>
+            <button class="btn btn-gold btn-sm" onclick="openCartModal()">
+              Lihat Keranjang & Checkout <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2B: HARGA (PRICING DIRECTORY) ==================== -->
+    <section class="app-view section" id="view-harga" style="display: none;">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 40px;">
+          <span class="section-tag-gold"><i class="fa-solid fa-tags"></i> Transparansi Biaya</span>
+          <h1 class="section-title-serif">Daftar Harga & Tarif Resmi PanggilKami</h1>
+          <p class="section-desc-centered">
+            Seluruh biaya dihitung secara transparan tanpa biaya siluman. Biaya terbagi atas Biaya Jasa Dasar + Biaya Perjalanan Sesuai Jarak Alamat.
+          </p>
+        </div>
+
+        <!-- Filter Tabs for Pricing -->
+        <div class="services-filter-bar" style="margin-bottom: 30px;">
+          <button class="filter-pill active" data-price-cat="all" onclick="filterPricingTable('all', this)">
+            Semua Layanan
+          </button>
+          <button class="filter-pill" data-price-cat="jastip" onclick="filterPricingTable('jastip', this)">
+            <i class="fa-solid fa-bag-shopping"></i> Jasa Titip Barang
+          </button>
+          <button class="filter-pill" data-price-cat="delivery" onclick="filterPricingTable('delivery', this)">
+            <i class="fa-solid fa-truck-fast"></i> Antar Barang Apa Saja
+          </button>
+          <button class="filter-pill" data-price-cat="ride" onclick="filterPricingTable('ride', this)">
+            <i class="fa-solid fa-motorcycle"></i> Antar Jemput Orang
+          </button>
+          <button class="filter-pill" data-price-cat="cleaning" onclick="filterPricingTable('cleaning', this)">
+            <i class="fa-solid fa-broom"></i> Bersih-bersih Kamar / WC / Kos
+          </button>
+        </div>
+
+        <!-- Pricing Table / Grid -->
+        <div class="pricing-cards-grid" id="pricingCardsList">
+          <!-- Populated by JavaScript renderPricingTable() -->
+        </div>
+
+        <!-- Travel Fee Transparency Notice -->
+        <div class="travel-fee-box">
+          <div class="travel-icon"><i class="fa-solid fa-route"></i></div>
+          <div>
+            <h4 style="color: var(--accent-gold); font-size: 1.1rem; font-weight: 800; margin-bottom: 6px;">
+              Ketentuan Biaya Perjalanan (Transportasi Mitra)
+            </h4>
+            <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0; line-height: 1.6;">
+              • Solo Baru & Sukoharjo Kota (Hub Utama): <strong>Mulai Rp 5.000</strong><br>
+              • Solo Kota, UMS Pabelan, Colomadu, Palur: <strong>Rp 7.000 - Rp 10.000</strong><br>
+              • Luar Area Utama: <strong>Dihitung otomatis Rp 2.500/km</strong> secara transparan di form checkout.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: DETAIL LAYANAN ==================== -->
+    <section class="app-view section" id="view-detail" style="display: none;">
+      <div class="container">
+        <!-- Breadcrumb -->
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--neutral-500); margin-bottom: 24px;">
+          <a href="#beranda" style="color: var(--teal-700); font-weight: 600;">Beranda</a>
+          <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+          <a href="#layanan" style="color: var(--teal-700); font-weight: 600;">Layanan</a>
+          <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i>
+          <span style="color: var(--neutral-700); font-weight: 700;">Detail Layanan</span>
+        </div>
+
+        <!-- Dynamic Content injected by renderServiceDetail() -->
+        <div id="serviceDetailContent"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 4: CHECKOUT ==================== -->
+    <section class="app-view section" id="view-checkout" style="display: none;">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 35px;">
+          <span class="section-tag">Tahap Pemesanan</span>
+          <h1 class="section-title">Konfirmasi Jadwal & Alamat</h1>
+          <p class="section-desc">Lengkapi informasi pengerjaan dan lokasi untuk menghitung total biaya secara otomatis.</p>
+        </div>
+
+        <!-- Dynamic Checkout Grid injected by renderCheckoutPage() -->
+        <div id="checkoutContent"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 5: PEMBAYARAN ==================== -->
+    <section class="app-view section" id="view-pembayaran" style="display: none;">
+      <div class="container">
+        <!-- Dynamic Payment Card injected by renderPaymentPage() -->
+        <div id="paymentContent"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 6: STATUS PESANAN (TRACKING) ==================== -->
+    <section class="app-view section" id="view-status" style="display: none;">
+      <div class="container">
+        <div class="text-center" style="margin-bottom: 35px;">
+          <span class="section-tag">Pantau Pekerjaan</span>
+          <h1 class="section-title">Status Pesanan & Pelacakan Layanan</h1>
+          <p class="section-desc">Pantau perkembangan pengerjaan pesanan Anda secara realtime dan hubungi tim layanan jika membutuhkan informasi tambahan.</p>
+        </div>
+
+        <!-- Dynamic Tracking Card injected by renderTrackingPage() -->
+        <div id="trackingContent"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 7: AREA LAYANAN (COVERAGE) ==================== -->
+    <section class="app-view section" id="view-area" style="display: none;">
+      <div class="container">
+        <div class="text-center">
+          <span class="section-tag">Jangkauan Layanan</span>
+          <h1 class="section-title">Cakupan Wilayah Solo Raya</h1>
+          <p class="section-desc">PanggilKami siap melayani kawasan Solo Baru (Hub Utama), Sukoharjo, Solo Kota, UMS Kartasura, Colomadu, Palur, hingga Karanganyar Kota.</p>
+        </div>
+
+        <!-- Interactive Coverage Checker Widget -->
+        <div class="area-check-box">
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--neutral-900); margin-bottom: 12px;">
+            <i class="fa-solid fa-location-crosshairs" style="color: var(--teal-600); margin-right: 6px;"></i> Cek Jangkauan Lokasi Anda
+          </h3>
+          <div class="area-check-row">
+            <input type="text" id="areaCheckInput" class="form-control" placeholder="Ketik nama kelurahan, jalan, atau area (contoh: Solo Baru, UMS, Jebres, Colomadu)...">
+            <button class="btn btn-primary" onclick="checkAreaCoverage()">
+              <i class="fa-solid fa-magnifying-glass"></i> Cek Lokasi
+            </button>
+          </div>
+          <div id="areaCheckResult" style="display: none; margin-top: 18px;"></div>
+        </div>
+
+        <!-- Area Cards Grid -->
+        <div class="area-grid" id="areaCardsList">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Expansion Notice -->
+        <div style="background: var(--teal-50); border: 1px dashed var(--teal-300); border-radius: var(--radius-lg); padding: 26px; text-align: center; margin-top: 35px;">
+          <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--teal-900); margin-bottom: 6px;">
+            Lokasi Anda Belum Tertera dalam Daftar?
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--neutral-600); max-width: 580px; margin: 0 auto 16px auto;">
+            Kami terus memperluas cakupan layanan ke berbagai wilayah di Solo Raya. Anda tetap dapat berkonsultasi langsung dengan Customer Service kami untuk kebutuhan pesanan khusus.
+          </p>
+          <a href="https://wa.me/6282283883580?text=Halo%20Customer%20Service%20PanggilKami,%20apakah%20area%20saya%20bisa%20dilayani?" target="_blank" class="btn btn-outline btn-sm">
+            Konsultasi Layanan via WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 8: TENTANG KAMI ==================== -->
+    <section class="app-view section" id="view-tentang" style="display: none;">
+      <div class="container">
+        <div class="text-center">
+          <span class="section-tag">Mengenal Kami</span>
+          <h1 class="section-title">Tentang PanggilKami</h1>
+          <p class="section-desc">Menghubungkan masyarakat yang membutuhkan bantuan sehari-hari dengan tenaga kerja lokal yang amanah dan terlatih.</p>
+        </div>
+
+        <div style="background: #FFFFFF; border-radius: var(--radius-xl); padding: 36px 30px; box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); margin-bottom: 40px;">
+          <div style="display: grid; grid-template-columns: 1fr; gap: 30px; align-items: center;">
+            <div>
+              <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--neutral-900); margin-bottom: 16px;">
+                Solusi Andal untuk Kebutuhan Harian Anda
+              </h2>
+              <p style="font-size: 0.98rem; color: var(--neutral-600); line-height: 1.7; margin-bottom: 16px;">
+                PanggilKami lahir dari kebutuhan nyata di Solo Raya: mahasiswa yang kelelahan menghadapi skripsi dan tugas kos, ibu rumah tangga yang butuh tangan ekstra mengurus perabot, hingga profesional muda yang sibuk beraktivitas dan butuh jastip atau antar barang cepat.
+              </p>
+              <p style="font-size: 0.98rem; color: var(--neutral-600); line-height: 1.7;">
+                Misi kami adalah menciptakan ekosistem gotong-royong modern berbasis teknologi yang adil, transparan, dan memberdayakan generasi muda serta mitra lokal di Solo Raya dengan penghasilan fleksibel dan bermartabat.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Pilar Standar Mutu -->
+        <div class="about-pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+            <h3 class="pillar-title">Seleksi & SKCK</h3>
+            <p class="pillar-desc">Semua mitra wajib lulus verifikasi KTP fisik, catatan kepolisian, dan wawancara tatap muka.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon"><i class="fa-solid fa-award"></i></div>
+            <h3 class="pillar-title">Pelatihan SOP</h3>
+            <p class="pillar-desc">Pembekalan standar kebersihan, etika kesopanan, privasi barang pelanggan, dan kerapian kerja.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon"><i class="fa-solid fa-rotate-left"></i></div>
+            <h3 class="pillar-title">Garansi 100% Puas</h3>
+            <p class="pillar-desc">Kurang bersih atau ada pekerjaan belum tuntas? Kami kirim pengerjaan ulang gratis tanpa debat.</p>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon"><i class="fa-solid fa-shield-heart"></i></div>
+            <h3 class="pillar-title">Asuransi Layanan</h3>
+            <p class="pillar-desc">Perlindungan ganti rugi barang jika terjadi kerusakan akibat kelalaian mitra selama pengerjaan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 9: FAQ ==================== -->
+    <section class="app-view section" id="view-faq" style="display: none;">
+      <div class="container">
+        <div class="text-center">
+          <span class="section-tag">Pusat Bantuan</span>
+          <h1 class="section-title">Pertanyaan yang Sering Diajukan</h1>
+          <p class="section-desc">Punya pertanyaan seputar cara pemesanan, tarif, atau garansi? Temukan jawabannya di sini.</p>
+        </div>
+
+        <!-- FAQ Accordion List populated by renderFaqs() -->
+        <div class="faq-accordion" id="faqAccordionList"></div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 10: KONTAK ==================== -->
+    <section class="app-view section" id="view-kontak" style="display: none;">
+      <div class="container">
+        <div class="text-center">
+          <span class="section-tag">Hubungi Kami</span>
+          <h1 class="section-title">Kami Siap Mendengar & Membantu</h1>
+          <p class="section-desc">Ada pertanyaan khusus, kerjasama kemitraan, atau kendala pemesanan? Tim kami siap melayani setiap hari.</p>
+        </div>
+
+        <div class="contact-grid">
+          <!-- Form Kirim Pesan -->
+          <div class="contact-card">
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--neutral-900); margin-bottom: 18px;">
+              Kirim Pesan Langsung
+            </h3>
+            <form id="contactForm">
+              <div class="form-group">
+                <label class="form-label">Nama Lengkap *</label>
+                <input type="text" class="form-control" required placeholder="Contoh: Budi Santoso">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nomor WhatsApp *</label>
+                <input type="tel" class="form-control" required placeholder="081234567890">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Subjek Pertanyaan</label>
+                <input type="text" class="form-control" placeholder="Contoh: Kemitraan Jasa / Tanya Area Khusus">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Pesan Anda *</label>
+                <textarea class="form-control" rows="4" required placeholder="Tuliskan detail pertanyaan atau bantuan yang kamu butuhkan..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                Kirim Pesan Sekarang <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Informasi Kontak & Kantor -->
+          <div>
+            <div class="contact-card" style="margin-bottom: 24px;">
+              <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--neutral-900); margin-bottom: 14px;">
+                Kontak Cepat Layanan
+              </h3>
+              <p style="font-size: 0.88rem; color: var(--neutral-500); line-height: 1.5;">
+                Untuk respon kilat atau konsultasi kebutuhan khusus, hubungi WhatsApp resmi kami.
+              </p>
+
+              <div class="contact-info-list">
+                <div class="contact-info-item">
+                  <div class="contact-icon-box"><i class="fa-brands fa-whatsapp"></i></div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--neutral-500);">WhatsApp Resmi</div>
+                    <a href="https://wa.me/6282283883580?text=Halo%20Customer%20Service%20PanggilKami,%20saya%20butuh%20bantuan%20layanan" target="_blank" style="font-weight: 800; color: var(--teal-700); font-size: 0.95rem;">
+                      082283883580
+                    </a>
+                  </div>
+                </div>
+
+                <div class="contact-info-item">
+                  <div class="contact-icon-box"><i class="fa-solid fa-envelope"></i></div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--neutral-500);">Email Resmi</div>
+                    <a href="mailto:panggilkamisolo@gmail.com" style="font-weight: 700; color: var(--neutral-800);">panggilkamisolo@gmail.com</a>
+                  </div>
+                </div>
+
+                <div class="contact-info-item">
+                  <div class="contact-icon-box"><i class="fa-solid fa-location-dot"></i></div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--neutral-500);">Alamat Bisnis</div>
+                    <span style="font-size: 0.88rem; font-weight: 700; color: var(--neutral-800); line-height: 1.4; display: block;">
+                      Solo Baru, Sukoharjo
+                    </span>
+                  </div>
+                </div>
+
+                <div class="contact-info-item">
+                  <div class="contact-icon-box"><i class="fa-regular fa-clock"></i></div>
+                  <div>
+                    <div style="font-size: 0.78rem; color: var(--neutral-500);">Jam Operasional</div>
+                    <span style="font-weight: 800; color: var(--teal-800);">Buka Setiap Hari · 06.00 - 00.00 WIB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social Media Box -->
+            <div style="background: var(--teal-50); border-radius: var(--radius-lg); padding: 22px; border: 1px solid var(--teal-200); text-align: center;">
+              <h4 style="font-size: 0.95rem; font-weight: 800; color: var(--teal-900); margin-bottom: 8px;">
+                Media Sosial PanggilKami
+              </h4>
+              <p style="font-size: 0.8rem; color: var(--neutral-500); margin-bottom: 12px;">Akun resmi informasi promo & kegiatan mitra:</p>
+              <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+                <span class="badge" style="background: #FFFFFF; color: var(--neutral-700); border: 1px solid var(--teal-200); font-weight: 600;"><i class="fa-brands fa-instagram" style="color: #E1306C;"></i> Instagram — segera hadir</span>
+                <span class="badge" style="background: #FFFFFF; color: var(--neutral-700); border: 1px solid var(--teal-200); font-weight: 600;"><i class="fa-brands fa-tiktok" style="color: #000000;"></i> TikTok — segera hadir</span>
+                <span class="badge" style="background: #FFFFFF; color: var(--neutral-700); border: 1px solid var(--teal-200); font-weight: 600;"><i class="fa-brands fa-facebook" style="color: #1877F2;"></i> Facebook — segera hadir</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 11: ADMIN DASHBOARD ==================== -->
+    <section class="app-view section" id="view-admin" style="display: none;">
+      <div class="container">
+        <div id="adminContent">
+          <!-- Populated dynamically by renderAdminPage() -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================
+       FOOTER
+       =================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand Info -->
+        <div class="footer-brand">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+            <div class="brand-icon" style="width: 36px; height: 36px; font-size: 1rem;">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h3 style="margin-bottom: 0; color: #FFFFFF;">PanggilKami</h3>
+          </div>
+          <p style="font-size: 0.92rem; font-weight: 700; color: var(--teal-300); margin-bottom: 8px;">
+            Marketplace Jasa On-Demand Terpercaya di Solo Raya
+          </p>
+          <p style="font-size: 0.88rem; color: var(--neutral-300); line-height: 1.6; margin-bottom: 14px;">
+            Marketplace jasa untuk membantu urusan pekerjaan sehari-hari dengan mitra terpercaya di Solo Baru, Sukoharjo, dan Solo Raya.
+          </p>
+          <div style="font-size: 0.85rem; color: var(--neutral-300); display: flex; flex-direction: column; gap: 6px;">
+            <div><i class="fa-solid fa-location-dot" style="color: var(--teal-400); margin-right: 6px;"></i> Solo Baru, Sukoharjo</div>
+            <div><i class="fa-brands fa-whatsapp" style="color: var(--teal-400); margin-right: 6px;"></i> 082283883580</div>
+            <div><i class="fa-solid fa-envelope" style="color: var(--teal-400); margin-right: 6px;"></i> panggilkamisolo@gmail.com</div>
+            <div><i class="fa-regular fa-clock" style="color: var(--teal-400); margin-right: 6px;"></i> Buka Setiap Hari · 06.00 - 00.00 WIB</div>
+          </div>
+        </div>
+
+        <!-- Links 1: Layanan -->
+        <div>
+          <h4 class="footer-links-title">Layanan Unggulan</h4>
+          <ul class="footer-links-list">
+            <li><a href="#layanan" class="footer-link">Bersih-Bersih Rumah</a></li>
+            <li><a href="#layanan" class="footer-link">Deep Clean Kamar Mandi</a></li>
+            <li><a href="#layanan" class="footer-link">Antar Barang & Dokumen</a></li>
+            <li><a href="#layanan" class="footer-link">Belanja Pasar & Supermarket</a></li>
+            <li><a href="#layanan" class="footer-link">Jasa Titip Kuliner & Oleh-Oleh</a></li>
+            <li><a href="#layanan" class="footer-link">Bantuan Tukang & Rakit Perabot</a></li>
+          </ul>
+        </div>
+
+        <!-- Links 2: Area Solo Raya -->
+        <div>
+          <h4 class="footer-links-title">Area Layanan Utama</h4>
+          <ul class="footer-links-list">
+            <li><a href="#area" class="footer-link">Solo Baru (Sukoharjo - Hub Utama)</a></li>
+            <li><a href="#area" class="footer-link">Sukoharjo Kota & Sekitarnya</a></li>
+            <li><a href="#area" class="footer-link">Solo Kota (Slamet Riyadi / Gladak)</a></li>
+            <li><a href="#area" class="footer-link">UMS Pabelan & Kartasura</a></li>
+            <li><a href="#area" class="footer-link">Colomadu & Karanganyar Kota</a></li>
+          </ul>
+        </div>
+
+        <!-- Links 3: Navigasi & Media Sosial -->
+        <div>
+          <h4 class="footer-links-title">Informasi & Media Sosial</h4>
+          <ul class="footer-links-list">
+            <li><a href="#tentang" class="footer-link">Tentang PanggilKami</a></li>
+            <li><a href="#faq" class="footer-link">FAQ & Pusat Bantuan</a></li>
+            <li><a href="#status" class="footer-link">Cek Status Pesanan</a></li>
+            <li><a href="https://wa.me/6282283883580?text=Halo%20Customer%20Service%20PanggilKami,%20saya%20tertarik%20bergabung%20menjadi%20mitra" target="_blank" class="footer-link">Daftar Jadi Mitra</a></li>
+          </ul>
+          <div style="margin-top: 14px; font-size: 0.78rem; color: var(--neutral-400);">
+            <div>Instagram: segera hadir</div>
+            <div>TikTok: segera hadir</div>
+            <div>Facebook: segera hadir</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 PanggilKami. Hak Cipta Dilindungi.
+        </div>
+        <div>
+          Solo Baru, Sukoharjo · Terhubung dengan Payment Gateway Midtrans Resmi.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================
+       MOBILE BOTTOM NAVIGATION BAR
+       =================================================================== -->
+  <nav class="mobile-bottom-bar">
+    <a href="#beranda" class="m-nav-item active" data-view="beranda">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </a>
+    <a href="#layanan" class="m-nav-item" data-view="layanan">
+      <i class="fa-solid fa-layer-group"></i>
+      <span>Layanan</span>
+    </a>
+    <a href="#harga" class="m-nav-item" data-view="harga">
+      <i class="fa-solid fa-tags"></i>
+      <span>Harga</span>
+    </a>
+    <a href="#status" class="m-nav-item" data-view="status">
+      <i class="fa-solid fa-receipt"></i>
+      <span>Pesanan</span>
+    </a>
+    <a href="#kontak" class="m-nav-item" data-view="kontak">
+      <i class="fa-solid fa-headset"></i>
+      <span>Kontak</span>
+    </a>
+  </nav>
+
+  <!-- FLOATING KERANJANG BUTTON -->
+  <button class="floating-cart-btn" onclick="openCartModal()" id="floatingCartBtn" title="Buka Keranjang Pesanan">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span class="floating-cart-badge" id="floatingCartBadge">0</span>
+  </button>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/6282283883580?text=Halo%20Customer%20Service%20PanggilKami,%20saya%20butuh%20bantuan%20layanan" target="_blank" class="floating-wa-btn" aria-label="Hubungi Customer Service WhatsApp" title="Chat CS WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- ===================================================================
+       CART MODAL / DRAWER (RINGKASAN PESANAN SEBELUM CHECKOUT)
+       =================================================================== -->
+  <div class="cart-modal-overlay" id="cartModalOverlay" onclick="handleCartOverlayClick(event)">
+    <div class="cart-modal-dialog" id="cartModalDialog">
+      <div class="cart-modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="cart-header-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+          <div>
+            <h3 class="cart-modal-title">Keranjang Pesanan</h3>
+            <span class="cart-modal-subtitle" id="cartItemCountLabel">0 Item Terpilih</span>
+          </div>
+        </div>
+        <button class="cart-modal-close" onclick="closeCartModal()" aria-label="Tutup Keranjang">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Cart Item List -->
+      <div class="cart-modal-body" id="cartModalBody">
+        <!-- Injected via renderCartModal() -->
+      </div>
+
+      <!-- Cart Modal Footer (Total & Checkout CTA) -->
+      <div class="cart-modal-footer" id="cartModalFooter">
+        <!-- Injected via renderCartModal() -->
+      </div>
+    </div>
+  <!-- ===================================================================
+       SHOPEE REVIEW MODAL (HANYA MUNCUL JIKA STATUS PESANAN = SELESAI)
+       =================================================================== -->
+  <div class="modal-overlay" id="shopeeReviewModalOverlay" style="display: none;" onclick="handleShopeeModalOverlayClick(event)">
+    <div class="modal-dialog shopee-review-dialog" style="max-width: 520px; background: #FFFFFF; color: #1F2937; border-radius: 20px; overflow: hidden; padding: 0; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);">
+      <div style="background: linear-gradient(135deg, #0A231A 0%, #133E2F 100%); padding: 20px 24px; color: #FFFFFF; display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: rgba(229,184,105,0.2); color: #E5B869; display: flex; align-items: center; justify-content: center; font-size: 1.15rem;">
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #FFFFFF;">Beri Nilai & Ulasan Layanan</h3>
+            <span style="font-size: 0.78rem; color: #E5B869;">Penilaian Pembeli Terverifikasi (Shopee-Style)</span>
+          </div>
+        </div>
+        <button type="button" class="cart-modal-close" onclick="closeShopeeReviewModal()" style="color: #FFFFFF; font-size: 1.2rem; background: none; border: none; cursor: pointer;">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="shopeeReviewForm" onsubmit="submitShopeeReview(event)" style="padding: 24px;">
+        <input type="hidden" id="reviewOrderId" value="">
+
+        <!-- Info Pesanan yang Dinilai -->
+        <div style="background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px 14px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
+          <img id="reviewOrderServiceImg" src="images/cleaning.jpg" alt="" style="width: 50px; height: 50px; border-radius: 10px; object-fit: cover;">
+          <div style="flex-grow: 1;">
+            <strong id="reviewOrderServiceTitle" style="display: block; font-size: 0.95rem; color: #111827; font-weight: 800;">Bersih-bersih Kamar / WC / Kos</strong>
+            <span id="reviewOrderIdLabel" style="font-size: 0.78rem; color: #6B7280;">Pesanan #PK-102941</span>
+          </div>
+          <span class="badge badge-emerald" style="font-size: 0.72rem;">Selesai</span>
+        </div>
+
+        <!-- Rating Bintang 1-5 Interaktif -->
+        <div class="form-group" style="text-align: center; margin-bottom: 20px;">
+          <label style="display: block; font-size: 0.9rem; font-weight: 800; color: #111827; margin-bottom: 8px;">Kualitas Pelayanan Mitra:</label>
+          <div class="star-rating-picker" id="starRatingPicker">
+            <span class="star-pick-btn active" data-rating="1" onclick="selectReviewStar(1)" title="Sangat Kecewa"><i class="fa-solid fa-star"></i></span>
+            <span class="star-pick-btn active" data-rating="2" onclick="selectReviewStar(2)" title="Kurang Puas"><i class="fa-solid fa-star"></i></span>
+            <span class="star-pick-btn active" data-rating="3" onclick="selectReviewStar(3)" title="Cukup"><i class="fa-solid fa-star"></i></span>
+            <span class="star-pick-btn active" data-rating="4" onclick="selectReviewStar(4)" title="Puas"><i class="fa-solid fa-star"></i></span>
+            <span class="star-pick-btn active" data-rating="5" onclick="selectReviewStar(5)" title="Sangat Puas"><i class="fa-solid fa-star"></i></span>
+          </div>
+          <div id="starRatingLabel" style="font-size: 0.88rem; font-weight: 800; color: #D97706; margin-top: 6px;">Sangat Puas (5/5)</div>
+          <input type="hidden" id="selectedStarValue" value="5">
+        </div>
+
+        <!-- Komentar Ulasan -->
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label class="form-label" style="color: #111827; font-weight: 800;"><i class="fa-regular fa-comment-dots"></i> Ceritakan Pengalaman Anda *</label>
+          <textarea id="reviewCommentInput" class="form-control" rows="3" required placeholder="Tuliskan ulasan mengenai hasil kerja, keramahan mitra, dan ketepatan waktu..."></textarea>
+        </div>
+
+        <!-- Upload Foto Hasil Pekerjaan (Multiple) -->
+        <div class="form-group" style="margin-bottom: 22px;">
+          <label class="form-label" style="color: #111827; font-weight: 800;"><i class="fa-solid fa-camera"></i> Tambah Foto Hasil Layanan (Opsional)</label>
+          <div class="review-photo-upload-zone" onclick="document.getElementById('reviewPhotoInput').click()" style="border: 2px dashed #D1D5DB; border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; background: #F9FAFB; transition: all 0.2s ease;">
+            <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1.5rem; color: #D97706; margin-bottom: 4px; display: block;"></i>
+            <span style="font-size: 0.82rem; color: #4B5563; font-weight: 600;">Klik untuk upload foto hasil (JPG/PNG)</span>
+            <input type="file" id="reviewPhotoInput" accept="image/*" multiple style="display: none;" onchange="handleReviewPhotoSelect(event)">
+          </div>
+          <!-- Preview Foto yang Diunggah -->
+          <div class="review-photo-preview-grid" id="reviewPhotoPreviewGrid" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;"></div>
+        </div>
+
+        <!-- Tombol Kirim -->
+        <button type="submit" class="btn btn-gold btn-block" style="font-weight: 800; font-size: 1rem; padding: 12px;">
+          <i class="fa-solid fa-paper-plane"></i> Kirim Ulasan Shopee-Style
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- REUSABLE MODAL CONTAINER -->
+  <div class="modal-overlay" id="appModalOverlay" onclick="handleModalOverlayClick(event)">
+    <div class="modal-dialog" id="appModalDialog">
+      <button class="modal-close-btn" onclick="closeAppModal()" aria-label="Tutup Modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="appModalBody"></div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- JAVASCRIPT LOGIC & QRIS ENGINE -->
+  <script src="js/qrcode.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    // Inline Helper for Home Category Click
+    function filterAndNavigate(category) {
+      navigateTo('#layanan');
+      setTimeout(() => {
+        const btn = document.querySelector(`.filter-pill[data-cat="${category}"]`);
+        if (btn) filterServicesByCategory(category, btn);
+      }, 50);
+    }
+  </script>
+</body>
+</html>
