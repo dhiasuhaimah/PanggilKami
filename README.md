@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PanggilKami — Platform Marketplace Jasa Panggilan Lokal
 > **Tagline:** “Butuh Bantuan? PanggilKami.”  
 > **Wilayah Utama:** Solo Baru HTC, Sukoharjo, Kartasura, Solo Kota, dan sekitarnya.
@@ -148,3 +149,7 @@ git push -u origin main
 - **Email:** `admin@gmail.com`
 - **Password:** `123456`
 > **Penting:** Segera ganti kata sandi admin melalui menu Pengaturan Admin setelah pertama kali login ke lingkungan produksi.
+=======
+# panggilkami
+Website marketplace jasa untuk membantu orang sibuk mendapatkan bantuan pekerjaan sehari-hari.
+>>>>>>> 0ca9dfd5e83afb6515d24d1bf617e54168446c25
