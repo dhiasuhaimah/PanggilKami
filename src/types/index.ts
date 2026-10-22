@@ -14,7 +14,10 @@ export type ServiceSlug =
   | 'jastip-barang'
   | 'antar-barang'
   | 'antar-jemput'
-  | 'bersih-bersih';
+  | 'bersih-bersih'
+  | 'bersih-kamar-kos'
+  | 'cuci-wc-kamar-mandi'
+  | 'suruh-apa-saja';
 
 export interface CleaningPricingRule {
   hourly_rate: number;          // Default 100000 (Rp 100.000 / jam)

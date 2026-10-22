@@ -34,13 +34,13 @@ const DEFAULT_SERVICES: Service[] = [
     slug: 'jastip-barang',
     description: 'Titip beli oleh-oleh khas Solo, makanan, kebutuhan sehari-hari, perlengkapan, dan barang lain yang diperbolehkan tanpa perlu repot mengantre.',
     short_desc: 'Beli makanan khas, oleh-oleh Solo, atau belanja harian praktis tanpa perlu repot antre.',
-    base_price: 25000,
+    base_price: 15000,
     unit: 'per transaksi jasa titip',
     category: 'Belanja & Titip',
     is_active: true,
     image_url: '/images/service_jastip.jpg',
     pricing_rules: {
-      note: 'Biaya jasa Rp 25.000 terpisah dari uang belanja barang dan ongkos kirim jarak jauh.'
+      note: 'Biaya jasa mulai Rp 15.000 terpisah dari uang belanja barang.'
     }
   },
   {
@@ -75,29 +75,48 @@ const DEFAULT_SERVICES: Service[] = [
   },
   {
     id: 'srv_4',
-    name: 'Bersih-bersih Kamar / WC / Kos',
-    slug: 'bersih-bersih',
-    description: 'Layanan kebersihan untuk kamar kos, kamar mandi, WC, dan area hunian agar lebih bersih, wangi, dan nyaman.',
-    short_desc: 'Layanan kebersihan kamar kos & WC mulai Rp 100.000/jam sesuai luas dan tingkat kekotoran.',
-    base_price: 100000,
-    unit: 'per jam pengerjaan',
+    name: 'Bersih Kamar Kos',
+    slug: 'bersih-kamar-kos',
+    description: 'Layanan kebersihan khusus kamar kos: sapu, pel lantai, lap debu meja/lemari, ganti sprei, dan buang sampah.',
+    short_desc: 'Bersih kamar kos rapi, higienis & wangi mulai Rp 50.000 / sesi pengerjaan.',
+    base_price: 50000,
+    unit: 'per sesi (kamar standar)',
     category: 'Kebersihan Hunian',
     is_active: true,
     image_url: '/images/service_cleaning.jpg',
     pricing_rules: {
+      note: 'Tarif mulai Rp 50.000 per sesi kamar standar di Solo.'
+    }
+  },
+  {
+    id: 'srv_5',
+    name: 'Cuci WC & Kamar Mandi',
+    slug: 'cuci-wc-kamar-mandi',
+    description: 'Pembersihan kerak membandel pada lantai kamar mandi, kloset duduk/jongkok, wastafel, dan dinding dengan pembersih profesional.',
+    short_desc: 'Cuci WC tuntas kerak & higienis mulai Rp 100.000 / jam pengerjaan.',
+    base_price: 100000,
+    unit: 'per jam pengerjaan',
+    category: 'Kebersihan Hunian',
+    is_active: true,
+    image_url: '/images/cuci_wc.png',
+    pricing_rules: {
       hourly_rate: 100000,
-      sqm_per_hour: 15,
-      dirtiness_multipliers: {
-        ringan: 1.0,
-        sedang: 1.25,
-        berat: 1.5
-      },
-      area_type_additions: {
-        kamar: 0,
-        wc: 25000,
-        kamar_wc: 45000,
-        area_tambahan: 60000
-      }
+      note: 'Tarif dihitung Rp 100.000 per jam pengerjaan tuntas kerak.'
+    }
+  },
+  {
+    id: 'srv_6',
+    name: 'Suruh Apa Saja (Fleksibel)',
+    slug: 'suruh-apa-saja',
+    description: 'Layanan serbabisa fleksibel untuk berbagai tugas mendadak: antre tiket, fotokopi tugas, angkat galon, atau urusan harian lainnya.',
+    short_desc: 'Tugas serbabisa & mendesak dibantu mitra cekatan mulai Rp 15.000.',
+    base_price: 15000,
+    unit: 'per tugas awal',
+    category: 'Bantuan Personal',
+    is_active: true,
+    image_url: '/images/service_suruh.jpg',
+    pricing_rules: {
+      note: 'Tarif transparan mulai Rp 15.000 disesuaikan dengan tingkat kesulitan tugas.'
     }
   }
 ];
@@ -141,7 +160,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   operating_hours: 'Setiap Hari: 06.00 - 22.00 WIB',
   cleaning_hourly_rate: 100000,
   cleaning_sqm_multiplier: 15,
-  jastip_base_fee: 25000,
+  jastip_base_fee: 15000,
   courier_base_fee: 15000,
   ride_base_fee: 15000
 };

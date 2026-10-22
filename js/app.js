@@ -173,58 +173,134 @@ const state = {
   viewMode: 'user', // 'user' or 'admin'
   orders: [],
   reviews: [],
+  selectedService: 'jastip',
   activeQrisOrder: null,
   appliedVoucher: null,
   qrisTimerInterval: null,
   qrisRemainingSeconds: 900 // 15 mins
 };
 
-// Services Config
+// Services Config (Tarif Jujur & Transparan Solo Raya)
 const SERVICES_MAP = {
   'jastip': {
+    id: 'jastip',
     name: 'Jasa Titip Barang & Belanja',
-    basePrice: 25000,
-    tag: 'Populer',
-    desc: 'Beli makanan khas Solo (Serabi, Selat, Soto), oleh-oleh, minimarket/pasar, apotek tanpa repot antre.',
-    placeholder: 'Contoh: Belikan Soto Gading 2 bungkus & Serabi Notosuman 1 kardus, antar ke kos...'
+    shortName: 'Jastip Belanja & Titip Makanan',
+    img: './images/jastip1.png',
+    basePrice: 15000, // Rp 15.000 Sesuai Promo Transparan (Bukan 25.000)
+    tag: 'Paling Sering Dipesan',
+    desc: 'Titip beli makanan khas Solo (Serabi Notosuman, Selat Solo, Soto Gading), belanja minimarket/pasar, apotek tanpa repot antre.',
+    placeholder: 'Contoh: Belikan Soto Triwindu 2 porsi & Es Teh, lalu antarkan ke kos putri Jebres...'
   },
   'antar-orang': {
-    name: 'Antar Jemput Orang (Ride)',
+    id: 'antar-orang',
+    name: 'Antar Jemput Orang (Ride Solo)',
+    shortName: 'Antar Jemput Orang',
+    img: './images/antarjmppt1.png',
     basePrice: 15000,
-    tag: 'Cepat & Aman',
-    desc: 'Antar jemput ke kampus UNS/UMS, stasiun, kantor, atau keliling Solo.',
-    placeholder: 'Contoh: Jemput di Stasiun Balapan jam 07.00 pagi, antar ke kos Pabelan UMS...'
+    tag: 'Tepat Waktu & Aman',
+    desc: 'Perjalanan aman ke stasiun Solo Balapan/Purwosari, kampus UNS/UMS, kantor, atau keliling Solo.',
+    placeholder: 'Contoh: Jemput di Stasiun Solo Balapan jam 07.30 pagi, antar ke kos Pabelan UMS...'
   },
   'bersih-kos': {
-    name: 'Bersih-bersih Kamar Kos & WC',
-    basePrice: 100000,
+    id: 'bersih-kos',
+    name: 'Bersih Kamar Kos',
+    shortName: 'Bersih Kamar Kos',
+    img: './images/clenings1.png',
+    basePrice: 50000, // Rp 50.000 / sesi
+    priceUnit: '/ sesi',
     tag: 'Rapi & Wangi',
-    desc: 'Bersihkan kamar tidur kos, cuci WC/kamar mandi berkerak, sapu, pel, dan rapikan ruangan (Rp 100rb/jam).',
-    placeholder: 'Contoh: Bersihkan 1 kamar kos + sikat lantai kamar mandi berkerak (estimasi 1 jam)...'
+    desc: 'Layanan kebersihan kamar tidur kos: sapu, pel lantai, lap debu perabotan meja/lemari, ganti sprei kasur, dan rapikan ruangan.',
+    placeholder: 'Contoh: Bersihkan kamar kos ukuran 3x4 meter, sapu, pel, dan rapikan meja belajar...'
+  },
+  'cuci-wc': {
+    id: 'cuci-wc',
+    name: 'Cuci WC & Kamar Mandi',
+    shortName: 'Cuci WC & Mandi',
+    img: './images/cuci_wc.png',
+    basePrice: 100000, // Rp 100.000 / jam
+    priceUnit: '/ jam',
+    tag: 'Kinclong & Higienis',
+    desc: 'Cuci dan sikat kamar mandi berkerak kuning/hitam, bersihkan kloset duduk/jongkok, wastafel, dinding keramik, dan bak mandi. Mitra bawa cairan pembersih kerak dan sikat lengkap.',
+    placeholder: 'Contoh: Sikat kamar mandi dalam yang berkerak kuning + kloset jongkok (estimasi 1 jam)...'
   },
   'suruh-bebas': {
-    name: 'Antar Barang Apa Saja',
+    id: 'suruh-bebas',
+    name: 'Suruh Apa Saja (Fleksibel)',
+    shortName: 'Suruh Apa Saja Bebas',
+    img: './images/antarbarang1.png',
     basePrice: 15000,
-    tag: 'Barang Legal Saja',
-    desc: 'Kirim dokumen, antar barang, kebutuhan kuliah, dan barang lain yang diperbolehkan secara legal.',
-    placeholder: 'Contoh: Titip antar berkas dokumen penting dari Solo Baru ke kantor Slamet Riyadi...'
+    priceUnit: '',
+    tag: 'Fleksibel & Siaga',
+    desc: 'Kirim dokumen, ambil laundry, print skripsi, antre loket, atau angkat barang kos.',
+    placeholder: 'Contoh: Titip print & jilid dokumen 50 halaman di Manahan, lalu antar ke kampus...'
   }
 };
 
-// Select service programmatically from service cards
-function selectServiceForOrder(serviceKey) {
-  const chips = document.querySelectorAll('.service-chip');
-  chips.forEach(chip => {
-    if (chip.dataset.service === serviceKey) {
-      chip.classList.add('active');
-    } else {
-      chip.classList.remove('active');
-    }
+// Render single chosen active service card in Step 1
+function renderSelectedServiceCard() {
+  const serviceKey = state.selectedService || 'jastip';
+  const serviceObj = SERVICES_MAP[serviceKey] || SERVICES_MAP['jastip'];
+
+  const imgEl = document.getElementById('selectedServiceImg');
+  const badgeEl = document.getElementById('selectedServiceBadge');
+  const nameEl = document.getElementById('selectedServiceName');
+  const descEl = document.getElementById('selectedServiceDesc');
+  const priceEl = document.getElementById('selectedServicePrice');
+
+  if (imgEl) imgEl.src = serviceObj.img;
+  if (badgeEl) badgeEl.innerText = serviceObj.tag;
+  if (nameEl) nameEl.innerText = serviceObj.name;
+  if (descEl) descEl.innerText = serviceObj.desc;
+  if (priceEl) {
+    priceEl.innerText = `Rp ${formatRupiah(serviceObj.basePrice)}${serviceObj.priceUnit ? ' ' + serviceObj.priceUnit : ''}`;
+  }
+
+  // Update active state on chips inside collapsible
+  document.querySelectorAll('.service-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.service === serviceKey);
   });
+}
+
+// Toggle collapsible service picker
+function toggleServicePicker(forceState = null) {
+  const container = document.getElementById('serviceChipsContainer');
+  const toggleBtnText = document.getElementById('btnToggleServiceText');
+  if (!container) return;
+
+  const willShow = (forceState !== null) ? forceState : (container.style.display === 'none' || container.style.display === '');
+  if (willShow) {
+    container.style.display = 'block';
+    if (toggleBtnText) toggleBtnText.innerText = 'Tutup Pilihan ✕';
+  } else {
+    container.style.display = 'none';
+    if (toggleBtnText) toggleBtnText.innerText = 'Ganti Layanan';
+  }
+}
+
+// Select service programmatically from service cards or chips
+function selectServiceForOrder(serviceKey, shouldFocusStep2 = true) {
+  if (!SERVICES_MAP[serviceKey]) serviceKey = 'jastip';
+  state.selectedService = serviceKey;
+
+  renderSelectedServiceCard();
+  toggleServicePicker(false); // Collapses to 1 service only
   updateOrderPrice();
-  const orderSection = document.getElementById('pesan');
-  if (orderSection) {
-    orderSection.scrollIntoView({ behavior: 'smooth' });
+
+  if (shouldFocusStep2) {
+    const step2El = document.getElementById('step2Header');
+    const taskInput = document.getElementById('taskDesc');
+    if (step2El) {
+      step2El.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    if (taskInput) {
+      setTimeout(() => {
+        taskInput.focus();
+        taskInput.classList.add('step2-highlight');
+        setTimeout(() => taskInput.classList.remove('step2-highlight'), 1800);
+      }, 350);
+    }
+    showToast(`✓ Layanan "${SERVICES_MAP[serviceKey].name}" dipilih. Silakan tulis tugas Anda.`);
   }
 }
 
@@ -390,6 +466,7 @@ function setViewMode(mode) {
 // Render Core Elements
 function renderApp() {
   updateAuthUI();
+  renderSelectedServiceCard();
   renderReviews();
   renderTracker();
   updateOrderPrice();
@@ -626,9 +703,15 @@ function renderTracker(specificOrderCode = null) {
         </button>
       ` : ''}
 
+      ${orderToDisplay.status !== 'completed' && orderToDisplay.status !== 'cancelled' ? `
+        <button onclick="simulateOrderCompleted('${orderToDisplay.id}')" class="btn btn-secondary btn-sm" style="border: 1.5px dashed #059669; color: #047857; font-weight: 700; flex: 1;" title="Simulasikan tugas selesai untuk uji coba rating dan ulasan">
+          ⚡ [Tes Cepat] Selesaikan Pesanan Ini
+        </button>
+      ` : ''}
+
       ${orderToDisplay.status === 'completed' && !orderToDisplay.has_reviewed ? `
-        <button onclick="openReviewModalForOrder('${orderToDisplay.id}')" class="btn btn-primary" style="flex: 1; background: #F59E0B; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);">
-          ⭐ Beri Ulasan Layanan Ini
+        <button onclick="openReviewModalForOrder('${orderToDisplay.id}')" class="btn btn-primary" style="flex: 1; background: #F59E0B; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3); font-weight: 800;">
+          ⭐ Beri Rating & Ulasan Layanan Ini
         </button>
       ` : ''}
 
@@ -639,17 +722,23 @@ function renderTracker(specificOrderCode = null) {
   `;
 }
 
-// Order Form Pricing Calculator
+// Order Form Pricing Calculator (100% Transparan Sesuai Permintaan User)
 function updateOrderPrice() {
-  const activeChip = document.querySelector('.service-chip.active');
-  const serviceKey = activeChip ? activeChip.dataset.service : 'jastip';
+  const serviceKey = state.selectedService || 'jastip';
   const serviceObj = SERVICES_MAP[serviceKey] || SERVICES_MAP['jastip'];
 
+  // Base price (Mulai Rp 15.000 untuk jastip, bukan 25.000!)
   const basePrice = serviceObj.basePrice;
   const areaSelect = document.getElementById('orderArea');
   let areaFee = 0;
-  if (areaSelect && areaSelect.value.includes('luar')) {
-    areaFee = 5000;
+  let areaName = 'Solo Baru';
+
+  if (areaSelect) {
+    const selectedOption = areaSelect.options[areaSelect.selectedIndex];
+    areaName = selectedOption.text.split('—')[0].replace('(+ Rp 5.000)', '').trim();
+    if (areaSelect.value.includes('luar')) {
+      areaFee = 5000;
+    }
   }
 
   const subtotal = basePrice + areaFee;
@@ -661,13 +750,34 @@ function updateOrderPrice() {
     finalTotal = Math.max(0, subtotal - discount);
   }
 
+  const serviceNameEl = document.getElementById('summaryServiceName');
   const baseEl = document.getElementById('summaryBasePrice');
+  const areaNameEl = document.getElementById('summaryAreaName');
+  const areaPriceEl = document.getElementById('summaryAreaPrice');
+  const shoppingNoteEl = document.getElementById('shoppingFeeNoteRow');
   const totalEl = document.getElementById('summaryTotalPrice');
   const discountRow = document.getElementById('voucherDiscountRow');
   const discountEl = document.getElementById('summaryVoucherDiscount');
   const taskInput = document.getElementById('taskDesc');
+  const submitBtn = document.querySelector('#quickOrderForm button[type="submit"]');
 
-  if (baseEl) baseEl.innerText = `Rp ${formatRupiah(basePrice)}`;
+  if (serviceNameEl) serviceNameEl.innerText = serviceObj.shortName || serviceObj.name;
+  if (baseEl) baseEl.innerText = `Rp ${formatRupiah(basePrice)}${serviceObj.priceUnit ? ' ' + serviceObj.priceUnit : ''}`;
+  if (areaNameEl) areaNameEl.innerText = areaName;
+  if (areaPriceEl) {
+    if (areaFee > 0) {
+      areaPriceEl.innerText = `+ Rp ${formatRupiah(areaFee)} (Luar Area Solo)`;
+      areaPriceEl.style.color = 'var(--accent-warm)';
+    } else {
+      areaPriceEl.innerText = 'Rp 0 (Termasuk Bebas Biaya)';
+      areaPriceEl.style.color = 'var(--success)';
+    }
+  }
+
+  if (shoppingNoteEl) {
+    shoppingNoteEl.style.display = (serviceKey === 'jastip') ? 'block' : 'none';
+  }
+
   if (discountRow && discountEl) {
     if (discount > 0) {
       discountRow.style.display = 'flex';
@@ -676,7 +786,12 @@ function updateOrderPrice() {
       discountRow.style.display = 'none';
     }
   }
+
   if (totalEl) totalEl.innerText = `Rp ${formatRupiah(finalTotal)}`;
+
+  if (submitBtn) {
+    submitBtn.innerText = `Lanjut ke Pembayaran QRIS Realtime (Rp ${formatRupiah(finalTotal)}) ➡️`;
+  }
 
   // Update placeholder helper if empty
   if (taskInput && !taskInput.value) {
@@ -684,13 +799,28 @@ function updateOrderPrice() {
   }
 }
 
+// Quick helper to simulate order completion for review testing
+function simulateOrderCompleted(orderId) {
+  const order = state.orders.find(o => o.id === orderId);
+  if (!order) return;
+
+  order.status = 'completed';
+  if (!order.paid_at) order.paid_at = new Date().toISOString();
+  order.completed_at = new Date().toISOString();
+  order.courier_name = 'Mas Joko Santoso (Honda Vario AD 4182 PK)';
+  saveOrders();
+  renderTracker(order.id);
+  renderAdminDashboard();
+  triggerConfetti();
+  showToast(`🎉 Pesanan #${order.id} selesai! Silakan beri rating & ulasan.`);
+}
+
 // Handle Order Submission
 function handleCreateOrder(e) {
   e.preventDefault();
 
-  const activeChip = document.querySelector('.service-chip.active');
-  const serviceKey = activeChip ? activeChip.dataset.service : 'jastip';
-  const serviceObj = SERVICES_MAP[serviceKey];
+  const serviceKey = state.selectedService || 'jastip';
+  const serviceObj = SERVICES_MAP[serviceKey] || SERVICES_MAP['jastip'];
 
   const taskDesc = document.getElementById('taskDesc').value.trim();
   const areaSelect = document.getElementById('orderArea');
@@ -990,7 +1120,24 @@ function openReviewModalForOrder(orderId) {
   const order = state.orders.find(o => o.id === orderId);
   if (order) {
     const serviceSelect = document.getElementById('revServiceInput');
-    if (serviceSelect) serviceSelect.value = order.service;
+    if (serviceSelect) {
+      let matched = false;
+      for (let opt of serviceSelect.options) {
+        if (opt.value === order.service || opt.text === order.service || order.service.includes(opt.value)) {
+          serviceSelect.value = opt.value;
+          matched = true;
+          break;
+        }
+      }
+      if (!matched) {
+        const sLower = (order.service || '').toLowerCase();
+        if (sLower.includes('wc') || sLower.includes('mandi')) serviceSelect.value = 'Cuci WC & Kamar Mandi';
+        else if (sLower.includes('kamar') || sLower.includes('kos')) serviceSelect.value = 'Bersih Kamar Kos';
+        else if (sLower.includes('jastip') || sLower.includes('titip')) serviceSelect.value = 'Jasa Titip Barang & Belanja';
+        else if (sLower.includes('antar') || sLower.includes('jemput')) serviceSelect.value = 'Antar Jemput Orang (Ride Solo)';
+        else serviceSelect.value = 'Suruh Apa Saja (Fleksibel)';
+      }
+    }
     const orderHidden = document.getElementById('revOrderIdHidden');
     if (orderHidden) orderHidden.value = order.id;
   }
@@ -1101,6 +1248,11 @@ function handleAuthSubmit(e) {
   const email = document.getElementById('authEmail').value.trim();
   const password = document.getElementById('authPassword').value;
 
+  let storedUsers = [];
+  try {
+    storedUsers = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS)) || [];
+  } catch(err) { storedUsers = []; }
+
   if (authModalMode === 'login') {
     // Check admin credentials
     if (email === 'admin@gmail.com' && password === '123456') {
@@ -1116,31 +1268,52 @@ function handleAuthSubmit(e) {
       return;
     }
 
-    // Default customer
-    setCurrentUser({
+    // Check stored registered users
+    const matched = storedUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (matched) {
+      setCurrentUser(matched);
+      closeAuthModal();
+      showToast(`Selamat datang kembali, ${matched.name}!`);
+      return;
+    }
+
+    // Default fallback customer login so user is never blocked
+    const fallbackUser = {
       name: email.split('@')[0] || 'Pelanggan Solo',
       email: email,
       phone: '082283883580',
       role: 'customer'
-    });
+    };
+    setCurrentUser(fallbackUser);
     closeAuthModal();
-    showToast(`Selamat datang kembali, ${state.currentUser.name}!`);
+    showToast(`Selamat datang, ${fallbackUser.name}!`);
   } else {
     // Register
     const fullName = document.getElementById('authFullName').value.trim();
     const phone = document.getElementById('authPhone').value.trim();
 
     if (!fullName || !phone) {
-      showToast('Mohon lengkapi nama dan no WhatsApp.', 'error');
+      showToast('Mohon lengkapi nama dan nomor WhatsApp.', 'error');
       return;
     }
 
-    setCurrentUser({
+    const newUser = {
       name: fullName,
       email: email,
       phone: phone,
+      password: password,
       role: 'customer'
-    });
+    };
+
+    const existingIdx = storedUsers.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+    if (existingIdx >= 0) {
+      storedUsers[existingIdx] = newUser;
+    } else {
+      storedUsers.push(newUser);
+    }
+    localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(storedUsers));
+
+    setCurrentUser(newUser);
     closeAuthModal();
     showToast(`Pendaftaran berhasil! Selamat bergabung, ${fullName}.`);
   }
@@ -1385,9 +1558,10 @@ function bindEvents() {
   // Service chips selection
   document.querySelectorAll('.service-chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      document.querySelectorAll('.service-chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      updateOrderPrice();
+      const serviceKey = chip.dataset.service;
+      if (serviceKey) {
+        selectServiceForOrder(serviceKey, true);
+      }
     });
   });
 
