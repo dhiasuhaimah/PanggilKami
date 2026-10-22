@@ -567,7 +567,10 @@
             Pusat pantauan pesanan masuk, verifikasi bayar, penugasan kurir, dan kepuasan pelanggan Solo Baru.
           </p>
         </div>
-        <div style="display: flex; gap: 10px;">
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <button type="button" onclick="adminResetAllOrders()" class="btn btn-sm btn-outline-danger" style="border: 1px solid #EF4444; color: #EF4444; border-radius: 8px; font-weight: 700; padding: 6px 14px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; background: transparent; cursor: pointer;">
+            🗑️ Bersihkan Semua Pesanan
+          </button>
           <button onclick="setViewMode('user')" class="btn btn-secondary btn-sm">
             ⬅️ Kembali ke Tampilan Pengguna
           </button>
@@ -579,7 +582,7 @@
         <div class="stat-card">
           <h3>TOTAL OMSET REALTIME</h3>
           <div class="stat-number" id="adminStatRevenue">Rp 0</div>
-          <div class="stat-sub">↑ Termasuk pembayaran QRIS</div>
+          <div class="stat-sub" id="adminStatRevenueSub">↑ Dari pesanan lunas/terverifikasi</div>
         </div>
         <div class="stat-card">
           <h3>TOTAL PESANAN MASUK</h3>
@@ -593,8 +596,8 @@
         </div>
         <div class="stat-card">
           <h3>TOTAL ULASAN PELANGGAN</h3>
-          <div class="stat-number" id="adminStatReviews">10</div>
-          <div class="stat-sub">Rata-rata rating 4.9 ★</div>
+          <div class="stat-number" id="adminStatReviews">0</div>
+          <div class="stat-sub" id="adminStatRatingSub">Rata-rata rating -</div>
         </div>
       </div>
 
@@ -900,49 +903,53 @@
 
       <h3 id="authModalTitle" style="font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 6px;">
         Masuk ke Akun Anda</h3>
-      <p style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 18px;">
-        Akses riwayat pesanan, ulasan, dan kemudahan pesan jasa suruh di Solo.
+      <p id="authModalDesc" style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 18px;">
+        Masukkan username atau email dan kata sandi Anda.
       </p>
 
       <form onsubmit="handleAuthSubmit(event)">
-        <!-- Register Fields -->
+        <!-- Login Fields Container -->
+        <div id="authLoginFields">
+          <div class="form-group">
+            <label class="form-label">Username atau Email</label>
+            <input type="text" id="authLoginIdentifier" class="form-input" placeholder="Masukkan username atau email..." autocomplete="username" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Kata Sandi</label>
+            <input type="password" id="authLoginPassword" class="form-input" placeholder="Masukkan kata sandi akun Anda..." autocomplete="current-password" />
+          </div>
+        </div>
+
+        <!-- Register Fields Container -->
         <div id="authRegisterFields" style="display: none;">
           <div class="form-group">
-            <label class="form-label">Nama Lengkap</label>
-            <input type="text" id="authFullName" class="form-input" placeholder="Nama Anda" />
+            <label class="form-label">Username (Untuk Login)</label>
+            <input type="text" id="authRegUsername" class="form-input" placeholder="Contoh: niwil6192" autocomplete="username" />
           </div>
+
           <div class="form-group">
-            <label class="form-label">Nomor WhatsApp</label>
-            <input type="tel" id="authPhone" class="form-input" placeholder="08xxxxxxxxxx" />
+            <label class="form-label">Alamat Email</label>
+            <input type="email" id="authRegEmail" class="form-input" placeholder="Contoh: niwil@gmail.com" autocomplete="email" />
           </div>
-        </div>
 
-        <div class="form-group">
-          <label class="form-label">Email</label>
-          <input type="email" id="authEmail" class="form-input" placeholder="nama@email.com" required />
-        </div>
+          <div class="form-group">
+            <label class="form-label">Nomor WhatsApp (Aktif)</label>
+            <input type="tel" id="authRegPhone" class="form-input" placeholder="08xxxxxxxxxx" />
+          </div>
 
-        <div class="form-group">
-          <label class="form-label">Kata Sandi</label>
-          <input type="password" id="authPassword" class="form-input" placeholder="Minimal 6 karakter" required />
+          <div class="form-group">
+            <label class="form-label">Kata Sandi Baru</label>
+            <input type="password" id="authRegPassword" class="form-input" placeholder="Minimal 6 karakter" autocomplete="new-password" />
+          </div>
         </div>
 
         <button type="submit" id="authSubmitBtn" class="btn btn-primary btn-full" style="margin-top: 10px; font-weight: 800;">
           Masuk Sekarang
         </button>
 
-        <div style="margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--border-light); text-align: center;">
-          <span style="font-size: 0.74rem; color: var(--text-muted); display: block; margin-bottom: 8px;">
-            ⚡ Akun Siap Pakai (1x Klik):
-          </span>
-          <div style="display: flex; gap: 8px;">
-            <button type="button" onclick="quickLogin('customer')" class="btn btn-secondary btn-sm" style="flex: 1; font-size: 0.76rem; font-weight: 700;">
-              👤 Masuk Pelanggan
-            </button>
-            <button type="button" onclick="quickLogin('admin')" class="btn btn-outline-navy btn-sm" style="flex: 1; font-size: 0.76rem; font-weight: 700;">
-              🛡️ Masuk Admin Solo
-            </button>
-          </div>
+        <div id="authFooterLink" style="margin-top: 14px; text-align: center; font-size: 0.82rem; color: var(--text-muted);">
+          Belum punya akun? <a href="javascript:void(0)" onclick="openAuthModal('register')" style="color: var(--primary-accent); font-weight: 700;">Daftar Akun Baru</a>
         </div>
       </form>
     </div>

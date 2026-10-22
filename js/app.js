@@ -106,66 +106,8 @@ const INITIAL_REVIEWS = [
   }
 ];
 
-// Initial Seed Orders
-const INITIAL_ORDERS = [
-  {
-    id: 'PK-2610-8492',
-    service: 'Jastip Belanja & Makanan',
-    service_id: 'jastip',
-    task_desc: 'Beli Selat Solo Mbak Lies 2 porsi & Es Beras Kencur, antar ke kos putri Jebres belakang UNS.',
-    area: 'Jebres (Area UNS)',
-    address: 'Jl. Surya Utama No. 12, Ngoresan, Jebres, Surakarta',
-    customer_name: 'Annisa Rahma',
-    customer_phone: '081234567890',
-    service_fee: 20000,
-    area_fee: 0,
-    total_amount: 20000,
-    status: 'completed', // pending, paid, on_way, completed, cancelled
-    courier_name: 'Mas Joko (Vario AD 4182 PK)',
-    created_at: '2026-10-18T10:15:00Z',
-    paid_at: '2026-10-18T10:18:00Z',
-    completed_at: '2026-10-18T11:05:00Z',
-    has_reviewed: true
-  },
-  {
-    id: 'PK-2610-7731',
-    service: 'Bersih-bersih Kamar Kos',
-    service_id: 'bersih-kos',
-    task_desc: 'Bersihkan kamar kos ukuran 3x4 meter + sikat kamar mandi dalam yang berkerak.',
-    area: 'Kartasura (Area UMS)',
-    address: 'Kos Pondok Kasih, Jl. Garuda Mas No. 5, Pabelan, Kartasura',
-    customer_name: 'Dimas Arya Pratama',
-    customer_phone: '085712345678',
-    service_fee: 65000,
-    area_fee: 0,
-    total_amount: 65000,
-    status: 'completed',
-    courier_name: 'Mas Slamet & Rekan',
-    created_at: '2026-10-18T13:20:00Z',
-    paid_at: '2026-10-18T13:22:00Z',
-    completed_at: '2026-10-18T15:10:00Z',
-    has_reviewed: true
-  },
-  {
-    id: 'PK-2610-9014',
-    service: 'Antar Jemput Orang',
-    service_id: 'antar-orang',
-    task_desc: 'Jemput di lobby Hotel Alila Jl. Slamet Riyadi, antar ke Stasiun Solo Balapan pintu selatan.',
-    area: 'Slamet Riyadi / Solo Kota',
-    address: 'Lobby Hotel Alila Solo -> Stasiun Solo Balapan',
-    customer_name: 'Budi Santoso',
-    customer_phone: '082283883580',
-    service_fee: 20000,
-    area_fee: 0,
-    total_amount: 20000,
-    status: 'on_way',
-    courier_name: 'Mas Wahyu (Beat AD 5931 AA)',
-    created_at: '2026-10-18T18:40:00Z',
-    paid_at: '2026-10-18T18:42:00Z',
-    completed_at: null,
-    has_reviewed: false
-  }
-];
+// Initial Seed Orders (Mulai bersih 0 pesanan agar semua data real sesuai pesanan pengguna)
+const INITIAL_ORDERS = [];
 
 // App State
 const state = {
@@ -272,14 +214,25 @@ function selectServiceFromDropdown(serviceKey) {
   if (dropdown) dropdown.style.display = 'none';
 }
 
-// Close dropdown on outside click
+// Close dropdowns on outside click
 document.addEventListener('click', (e) => {
+  // Service change dropdown
   const dropdown = document.getElementById('dropdownUbahLayanan');
   const btn = document.getElementById('btnUbahLayanan');
   const card = document.getElementById('singleActiveServiceCard');
   if (dropdown && dropdown.style.display === 'block') {
     if (!dropdown.contains(e.target) && !btn?.contains(e.target) && !card?.contains(e.target)) {
       dropdown.style.display = 'none';
+    }
+  }
+
+  // User profile dropdown
+  const userDropdown = document.getElementById('userMenuDropdown');
+  const userBtn = document.getElementById('btnUserMenu');
+  if (userDropdown && userDropdown.style.display === 'block') {
+    if (!userDropdown.contains(e.target) && !userBtn?.contains(e.target)) {
+      userDropdown.style.display = 'none';
+      if (userBtn) userBtn.classList.remove('open');
     }
   }
 });
@@ -394,6 +347,21 @@ function initApp() {
 
 // Load data from LocalStorage or seed defaults
 function loadData() {
+  // Ensure Admin User (admin@gmail.com / 123456) is always saved in storage
+  try {
+    let usersList = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS)) || [];
+    if (!usersList.some(u => u.email.toLowerCase() === 'admin@gmail.com')) {
+      usersList.push({
+        name: 'Admin Operasional Solo',
+        email: 'admin@gmail.com',
+        phone: '082283883580',
+        password: '123456',
+        role: 'admin'
+      });
+      localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(usersList));
+    }
+  } catch(e) {}
+
   // Current user
   const savedUser = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
   if (savedUser) {
@@ -406,14 +374,24 @@ function loadData() {
     state.viewMode = savedView;
   }
 
-  // Orders
+  // Orders: Clean out any legacy dummy/mock orders (e.g. PK-2610-8492, 7731, 9014, or 'aca')
   const savedOrders = localStorage.getItem(STORAGE_KEYS.ORDERS);
   if (savedOrders) {
-    try { state.orders = JSON.parse(savedOrders); } catch(e) { state.orders = INITIAL_ORDERS; }
+    try {
+      const parsed = JSON.parse(savedOrders);
+      state.orders = Array.isArray(parsed) ? parsed.filter(o => 
+        !o.id.startsWith('PK-2610-8492') && 
+        !o.id.startsWith('PK-2610-7731') && 
+        !o.id.startsWith('PK-2610-9014') &&
+        o.customer_name !== 'aca'
+      ) : [];
+    } catch(e) {
+      state.orders = [];
+    }
   } else {
-    state.orders = INITIAL_ORDERS;
-    saveOrders();
+    state.orders = [];
   }
+  saveOrders();
 
   // Reviews
   const savedReviews = localStorage.getItem(STORAGE_KEYS.REVIEWS);
@@ -484,31 +462,54 @@ function renderApp() {
   }
 }
 
-// Update Auth UI in Header
+// Update Auth UI in Header (Simple Person Logo + Click Red Logout Dropdown)
 function updateAuthUI() {
   const authContainer = document.getElementById('navAuthContainer');
   if (!authContainer) return;
 
   if (state.currentUser) {
     const isAdmin = state.currentUser.role === 'admin';
+    const displayName = state.currentUser.username || state.currentUser.name || 'Pengguna';
+    const emailDisplay = state.currentUser.email || '';
+
     authContainer.innerHTML = `
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <div style="display: flex; align-items: center; gap: 8px; background: var(--bg-subtle); padding: 5px 12px; border-radius: 9999px; border: 1px solid var(--border-light);">
-          <span style="font-size: 0.9rem;">${isAdmin ? '🛡️' : '👤'}</span>
-          <span style="font-size: 0.85rem; font-weight: 700; color: var(--primary);">${escapeHtml(state.currentUser.name)}</span>
-        ${isAdmin ? `
-          <button onclick="setViewMode(state.viewMode === 'admin' ? 'user' : 'admin')" class="btn btn-sm btn-outline-navy" style="padding: 6px 12px; font-weight: 700;">
-            ${state.viewMode === 'admin' ? '🌐 Ke Beranda' : '🛡️ Kelola Admin'}
+      <div class="user-profile-menu-container">
+        <button type="button" id="btnUserMenu" onclick="toggleUserMenuDropdown(event)" class="simple-user-badge-btn" title="Menu Akun: ${escapeHtml(displayName)}">
+          <span class="user-avatar-circle-icon">${isAdmin ? '🛡️' : '👤'}</span>
+          <span class="user-badge-username">${escapeHtml(displayName)}</span>
+          <span class="user-badge-arrow">▾</span>
+        </button>
+
+        <div id="userMenuDropdown" class="user-dropdown-popover" style="display: none;">
+          <div class="user-dropdown-header">
+            <div class="user-dropdown-avatar">${isAdmin ? '🛡️' : '👤'}</div>
+            <div class="user-dropdown-details">
+              <strong class="user-dropdown-name">${escapeHtml(displayName)}</strong>
+              <span class="user-dropdown-email">${escapeHtml(emailDisplay)}</span>
+            </div>
+          </div>
+
+          <div class="user-dropdown-separator"></div>
+
+          ${isAdmin ? `
+            <button type="button" onclick="setViewMode(state.viewMode === 'admin' ? 'user' : 'admin'); closeUserMenuDropdown();" class="user-dropdown-action">
+              <span>${state.viewMode === 'admin' ? '🌐 Tampilan Pelanggan' : '🛡️ Dashboard Admin Solo'}</span>
+            </button>
+            <div class="user-dropdown-separator"></div>
+          ` : ''}
+
+          <button type="button" onclick="handleLogout()" class="user-dropdown-action logout-red-btn">
+            <span style="font-size: 1rem; color: #EF4444;">🚪</span>
+            <span style="color: #EF4444; font-weight: 700;">Keluar</span>
           </button>
-        ` : ''}
-        <button onclick="handleLogout()" class="btn btn-sm btn-secondary" title="Keluar Akun" style="padding: 6px 12px;">Keluar</button>
+        </div>
       </div>
     `;
 
     // Also auto-fill order form if empty
     const nameInput = document.getElementById('custName');
     const phoneInput = document.getElementById('custPhone');
-    if (nameInput && !nameInput.value) nameInput.value = state.currentUser.name;
+    if (nameInput && !nameInput.value) nameInput.value = displayName;
     if (phoneInput && !phoneInput.value) phoneInput.value = state.currentUser.phone || '';
   } else {
     authContainer.innerHTML = `
@@ -516,6 +517,24 @@ function updateAuthUI() {
       <button onclick="openAuthModal('register')" class="btn btn-sm btn-outline-navy">Daftar</button>
     `;
   }
+}
+
+// User Profile Dropdown Toggle & Close
+function toggleUserMenuDropdown(e) {
+  if (e) e.stopPropagation();
+  const dropdown = document.getElementById('userMenuDropdown');
+  const btn = document.getElementById('btnUserMenu');
+  if (!dropdown) return;
+  const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
+  dropdown.style.display = isHidden ? 'block' : 'none';
+  if (btn) btn.classList.toggle('open', isHidden);
+}
+
+function closeUserMenuDropdown() {
+  const dropdown = document.getElementById('userMenuDropdown');
+  const btn = document.getElementById('btnUserMenu');
+  if (dropdown) dropdown.style.display = 'none';
+  if (btn) btn.classList.remove('open');
 }
 
 // Render 10 Reviews Section
@@ -1223,22 +1242,43 @@ function openAuthModal(mode = 'login') {
 
   const tabLogin = document.getElementById('authTabLogin');
   const tabRegister = document.getElementById('authTabRegister');
+  const loginFields = document.getElementById('authLoginFields');
   const registerFields = document.getElementById('authRegisterFields');
   const submitBtn = document.getElementById('authSubmitBtn');
   const title = document.getElementById('authModalTitle');
+  const desc = document.getElementById('authModalDesc');
+  const footerLink = document.getElementById('authFooterLink');
 
   if (mode === 'login') {
-    tabLogin.classList.add('active');
-    tabRegister.classList.remove('active');
-    registerFields.style.display = 'none';
-    submitBtn.innerText = 'Masuk Sekarang';
-    title.innerText = 'Masuk ke Akun Anda';
+    if (tabLogin) tabLogin.classList.add('active');
+    if (tabRegister) tabRegister.classList.remove('active');
+    if (loginFields) loginFields.style.display = 'block';
+    if (registerFields) registerFields.style.display = 'none';
+    if (submitBtn) submitBtn.innerText = 'Masuk Sekarang';
+    if (title) title.innerText = 'Masuk ke Akun Anda';
+    if (desc) desc.innerText = 'Masukkan username atau email dan kata sandi Anda.';
+    if (footerLink) {
+      footerLink.innerHTML = `Belum punya akun? <a href="javascript:void(0)" onclick="openAuthModal('register')" style="color: var(--primary-accent); font-weight: 700;">Daftar Akun Baru</a>`;
+    }
+    setTimeout(() => {
+      const idInput = document.getElementById('authLoginIdentifier');
+      if (idInput && !idInput.value) idInput.focus();
+    }, 150);
   } else {
-    tabLogin.classList.remove('active');
-    tabRegister.classList.add('active');
-    registerFields.style.display = 'block';
-    submitBtn.innerText = 'Daftar Akun Baru';
-    title.innerText = 'Daftar Akun PanggilKami';
+    if (tabLogin) tabLogin.classList.remove('active');
+    if (tabRegister) tabRegister.classList.add('active');
+    if (loginFields) loginFields.style.display = 'none';
+    if (registerFields) registerFields.style.display = 'block';
+    if (submitBtn) submitBtn.innerText = 'Daftar Akun Sekarang';
+    if (title) title.innerText = 'Daftar Akun Baru PanggilKami';
+    if (desc) desc.innerText = 'Buat username, email, dan kata sandi Anda agar mudah masuk.';
+    if (footerLink) {
+      footerLink.innerHTML = `Sudah punya akun? <a href="javascript:void(0)" onclick="openAuthModal('login')" style="color: var(--primary-accent); font-weight: 700;">Masuk di Sini</a>`;
+    }
+    setTimeout(() => {
+      const uInput = document.getElementById('authRegUsername');
+      if (uInput) uInput.focus();
+    }, 150);
   }
 
   modal.classList.add('open');
@@ -1252,77 +1292,127 @@ function closeAuthModal() {
 function handleAuthSubmit(e) {
   e.preventDefault();
 
-  const email = document.getElementById('authEmail').value.trim();
-  const password = document.getElementById('authPassword').value;
-
   let storedUsers = [];
   try {
     storedUsers = JSON.parse(localStorage.getItem(STORAGE_KEYS.USERS)) || [];
   } catch(err) { storedUsers = []; }
 
   if (authModalMode === 'login') {
-    // Check admin credentials
-    if (email === 'admin@gmail.com' && password === '123456') {
-      setCurrentUser({
-        name: 'Admin Operasional Solo',
-        email: 'admin@gmail.com',
-        phone: '082283883580',
-        role: 'admin'
-      });
-      closeAuthModal();
-      showToast('Berhasil masuk sebagai Admin Operasional!');
-      setViewMode('admin');
+    const idInput = document.getElementById('authLoginIdentifier');
+    const pwdInput = document.getElementById('authLoginPassword');
+    const identifier = (idInput ? idInput.value : '').trim();
+    const password = pwdInput ? pwdInput.value : '';
+
+    if (!identifier || !password) {
+      showToast('Mohon masukkan username/email dan kata sandi.', 'error');
       return;
     }
 
-    // Check stored registered users
-    const matched = storedUsers.find(u => u.email.toLowerCase() === email.toLowerCase());
+    // 1. Check Admin Account (admin@gmail.com / admin with pw 123456)
+    if (identifier.toLowerCase() === 'admin@gmail.com' || identifier.toLowerCase() === 'admin') {
+      if (password === '123456') {
+        setCurrentUser({
+          username: 'admin',
+          name: 'Admin Operasional Solo',
+          email: 'admin@gmail.com',
+          phone: '082283883580',
+          role: 'admin'
+        });
+        closeAuthModal();
+        showToast('Berhasil masuk sebagai Admin Operasional!');
+        setViewMode('admin');
+        return;
+      } else {
+        showToast('Kata sandi admin salah. Pastikan password adalah 123456.', 'error');
+        return;
+      }
+    }
+
+    // 2. Check Registered Users in Storage (strictly registered users)
+    const matched = storedUsers.find(u => 
+      (u.username && u.username.toLowerCase() === identifier.toLowerCase()) ||
+      (u.email && u.email.toLowerCase() === identifier.toLowerCase())
+    );
+
     if (matched) {
-      setCurrentUser(matched);
-      closeAuthModal();
-      showToast(`Selamat datang kembali, ${matched.name}!`);
+      if (matched.password === password) {
+        setCurrentUser(matched);
+        closeAuthModal();
+        showToast(`Selamat datang kembali, ${matched.username || matched.name}!`);
+        if (state.viewMode === 'admin') setViewMode('user');
+        return;
+      } else {
+        showToast('Kata sandi salah. Silakan periksa kembali kata sandi Anda.', 'error');
+        return;
+      }
+    }
+
+    // 3. Reject if not registered! (NO FAKE / FALLBACK LOGINS)
+    showToast(`Akun "${identifier}" belum terdaftar! Silakan klik tab "Daftar Akun Baru" terlebih dahulu.`, 'error');
+    return;
+  } else {
+    // Register Mode
+    const regUname = (document.getElementById('authRegUsername')?.value || '').trim();
+    const regEmail = (document.getElementById('authRegEmail')?.value || '').trim();
+    const regPhone = (document.getElementById('authRegPhone')?.value || '').trim();
+    const regPass = document.getElementById('authRegPassword')?.value || '';
+
+    if (!regUname || regUname.length < 3) {
+      showToast('Username minimal 3 karakter tanpa spasi.', 'error');
+      return;
+    }
+    if (/\s/.test(regUname)) {
+      showToast('Username tidak boleh mengandung spasi.', 'error');
+      return;
+    }
+    if (!regEmail || !regEmail.includes('@') || !regEmail.includes('.')) {
+      showToast('Masukkan alamat email yang valid.', 'error');
+      return;
+    }
+    if (!regPass || regPass.length < 6) {
+      showToast('Kata sandi minimal 6 karakter.', 'error');
       return;
     }
 
-    // Default fallback customer login so user is never blocked
-    const fallbackUser = {
-      name: email.split('@')[0] || 'Pelanggan Solo',
-      email: email,
-      phone: '082283883580',
-      role: 'customer'
-    };
-    setCurrentUser(fallbackUser);
-    closeAuthModal();
-    showToast(`Selamat datang, ${fallbackUser.name}!`);
-  } else {
-    // Register
-    const fullName = document.getElementById('authFullName').value.trim();
-    const phone = document.getElementById('authPhone').value.trim();
+    const cleanUname = regUname.toLowerCase();
+    const cleanEmail = regEmail.toLowerCase();
 
-    if (!fullName || !phone) {
-      showToast('Mohon lengkapi nama dan nomor WhatsApp.', 'error');
+    // Check if already registered
+    const exists = storedUsers.some(u => 
+      (u.username && u.username.toLowerCase() === cleanUname) ||
+      (u.email && u.email.toLowerCase() === cleanEmail)
+    );
+
+    if (exists || cleanUname === 'admin' || cleanEmail === 'admin@gmail.com') {
+      showToast('Username atau email sudah terdaftar. Silakan langsung masuk.', 'error');
       return;
     }
 
     const newUser = {
-      name: fullName,
-      email: email,
-      phone: phone,
-      password: password,
-      role: 'customer'
+      id: 'usr_' + Date.now(),
+      username: regUname,
+      name: regUname,
+      email: cleanEmail,
+      phone: regPhone,
+      password: regPass,
+      role: 'customer',
+      created_at: new Date().toISOString()
     };
 
-    const existingIdx = storedUsers.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
-    if (existingIdx >= 0) {
-      storedUsers[existingIdx] = newUser;
-    } else {
-      storedUsers.push(newUser);
-    }
+    storedUsers.push(newUser);
     localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(storedUsers));
 
-    setCurrentUser(newUser);
-    closeAuthModal();
-    showToast(`Pendaftaran berhasil! Selamat bergabung, ${fullName}.`);
+    // Direct user to Login form as requested
+    openAuthModal('login');
+    const idInput = document.getElementById('authLoginIdentifier');
+    const pwdInput = document.getElementById('authLoginPassword');
+    if (idInput) idInput.value = regUname;
+    if (pwdInput) {
+      pwdInput.value = '';
+      setTimeout(() => pwdInput.focus(), 200);
+    }
+
+    showToast(`✅ Akun "${regUname}" berhasil didaftarkan! Silakan masukkan kata sandi Anda untuk masuk.`);
   }
 }
 
@@ -1353,31 +1443,55 @@ function quickLogin(role) {
 
 function handleLogout() {
   setCurrentUser(null);
+  closeUserMenuDropdown();
   showToast('Anda telah keluar dari akun.');
   if (state.viewMode === 'admin') {
     setViewMode('user');
   }
 }
 
-// Admin Dashboard Rendering & Management
+// Admin Dashboard Rendering & Management (100% Realtime Sesuai Data Nyata)
 function renderAdminDashboard() {
-  // Stats
+  // Stats (Data Nyata, Tanpa Dibuat-buat)
   const totalOrders = state.orders.length;
-  const activeOrders = state.orders.filter(o => o.status === 'pending' || o.status === 'paid' || o.status === 'on_way').length;
-  const totalRevenue = state.orders.filter(o => o.status !== 'cancelled').reduce((sum, o) => sum + (o.total_amount || 0), 0);
-  const totalReviews = state.reviews.length;
+  const activeOrders = state.orders.filter(o => ['waiting_verification', 'pending', 'paid', 'on_way'].includes(o.status)).length;
+  // Omset dihitung HANYA dari pesanan yang sudah lunas (paid, on_way, completed)
+  const totalRevenue = state.orders
+    .filter(o => o.status === 'paid' || o.status === 'on_way' || o.status === 'completed')
+    .reduce((sum, o) => sum + (Number(o.total_amount) || 0), 0);
 
-  document.getElementById('adminStatRevenue').innerText = `Rp ${formatRupiah(totalRevenue)}`;
-  document.getElementById('adminStatOrders').innerText = totalOrders;
-  document.getElementById('adminStatActive').innerText = activeOrders;
-  document.getElementById('adminStatReviews').innerText = totalReviews;
+  const totalReviews = state.reviews.length;
+  let avgRating = 0;
+  if (totalReviews > 0) {
+    const sumRating = state.reviews.reduce((sum, r) => sum + (Number(r.rating) || 5), 0);
+    avgRating = (sumRating / totalReviews).toFixed(1);
+  }
+
+  const statRevenueEl = document.getElementById('adminStatRevenue');
+  const statOrdersEl = document.getElementById('adminStatOrders');
+  const statActiveEl = document.getElementById('adminStatActive');
+  const statReviewsEl = document.getElementById('adminStatReviews');
+  const statReviewsSubEl = document.getElementById('adminStatRatingSub');
+
+  if (statRevenueEl) statRevenueEl.innerText = `Rp ${formatRupiah(totalRevenue)}`;
+  if (statOrdersEl) statOrdersEl.innerText = totalOrders;
+  if (statActiveEl) statActiveEl.innerText = activeOrders;
+  if (statReviewsEl) statReviewsEl.innerText = totalReviews;
+  if (statReviewsSubEl) {
+    statReviewsSubEl.innerText = totalReviews > 0 ? `Rata-rata rating ${avgRating} ★` : 'Belum ada ulasan';
+  }
 
   // Table
   const tbody = document.getElementById('adminOrdersTableBody');
   if (!tbody) return;
 
   if (state.orders.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">Belum ada pesanan masuk.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 40px; font-size: 0.95rem;">
+      📭 Belum ada pesanan masuk.<br>
+      <span style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px; display: inline-block;">
+        Dashboard bersih dan siap digunakan. Silakan buat pesanan baru melalui form pemesanan untuk mulai mencoba alur sistem secara langsung.
+      </span>
+    </td></tr>`;
     return;
   }
 
@@ -1408,10 +1522,10 @@ function renderAdminDashboard() {
         ${getStatusBadgeHtml(o.status)}
       </td>
       <td>
-        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
           ${o.status === 'waiting_verification' ? `
-            <button onclick="adminVerifyGopaySuccess('${o.id}')" class="btn btn-sm btn-primary" style="background: #059669; color: #fff; font-weight: 700; border: none; padding: 5px 12px;" title="Uang Masuk ke GoPay, Proses Pesanan & Tugaskan Mitra">
-              ✅ Saldo GoPay Masuk (Proses)
+            <button onclick="adminVerifyGopaySuccess('${o.id}')" class="btn btn-sm btn-primary" style="background: #059669; color: #fff; font-weight: 700; border: none; padding: 5px 10px;" title="Uang Masuk ke GoPay, Proses Pesanan & Tugaskan Mitra">
+              ✅ Saldo GoPay Masuk
             </button>
             ${o.proof_image ? `
               <button onclick="adminViewProofImage('${o.id}')" class="btn btn-sm btn-secondary" style="padding: 5px 8px;" title="Lihat Screenshot Bukti Bayar">
@@ -1421,26 +1535,30 @@ function renderAdminDashboard() {
           ` : ''}
 
           ${o.status === 'pending' ? `
-            <button onclick="adminVerifyGopaySuccess('${o.id}')" class="btn btn-sm btn-secondary" style="background: #E0F2FE; color: #0284C7; border: none;" title="Konfirmasi Bayar">
+            <button onclick="adminVerifyGopaySuccess('${o.id}')" class="btn btn-sm btn-secondary" style="background: #E0F2FE; color: #0284C7; border: none; font-weight: 600;" title="Konfirmasi Bayar">
               ✓ Terima
             </button>
           ` : ''}
 
           ${o.status === 'paid' ? `
-            <button onclick="adminChangeOrderStatus('${o.id}', 'on_way')" class="btn btn-sm btn-secondary" style="background: var(--accent-warm-soft); color: var(--accent-warm); border: none;" title="Tugaskan Mitra OTW">
+            <button onclick="adminChangeOrderStatus('${o.id}', 'on_way')" class="btn btn-sm btn-secondary" style="background: var(--accent-warm-soft); color: var(--accent-warm); border: none; font-weight: 600;" title="Tugaskan Mitra OTW">
               🛵 OTW
             </button>
           ` : ''}
 
           ${o.status === 'on_way' ? `
-            <button onclick="adminChangeOrderStatus('${o.id}', 'completed')" class="btn btn-sm btn-secondary" style="background: var(--success-soft); color: #047857; border: none;" title="Tandai Selesai">
+            <button onclick="adminChangeOrderStatus('${o.id}', 'completed')" class="btn btn-sm btn-secondary" style="background: var(--success-soft); color: #047857; border: none; font-weight: 600;" title="Tandai Selesai">
               🎉 Selesai
             </button>
           ` : ''}
 
-          <a href="https://wa.me/${formatWaNumber(o.customer_phone)}?text=${encodeURIComponent(`Halo Kak ${o.customer_name}, kami dari PanggilKami Solo terkait pesanan #${o.id}.`)}" target="_blank" class="btn btn-sm btn-secondary" title="Chat Pelanggan">
+          <a href="https://wa.me/${formatWaNumber(o.customer_phone)}?text=${encodeURIComponent(`Halo Kak ${o.customer_name}, kami dari PanggilKami Solo terkait pesanan #${o.id}.`)}" target="_blank" class="btn btn-sm btn-secondary" title="Chat Pelanggan di WhatsApp" style="padding: 5px 8px;">
             💬 WA
           </a>
+
+          <button onclick="adminDeleteOrder('${o.id}')" class="btn btn-sm btn-secondary" style="color: #EF4444; border: 1px solid #FECACA; padding: 5px 8px;" title="Hapus Pesanan Ini">
+            🗑️
+          </button>
         </div>
       </td>
     </tr>
@@ -1453,11 +1571,11 @@ function adminVerifyGopaySuccess(orderId) {
 
   order.status = 'on_way';
   order.paid_at = new Date().toISOString();
-  order.courier_name = 'Mas Joko Santoso (Honda Vario AD 4182 PK)';
+  order.courier_name = 'Mitra Siaga Solo';
   saveOrders();
   renderAdminDashboard();
   renderTracker();
-  showToast(`✅ Pembayaran pesanan #${orderId} terverifikasi masuk di GoPay! Status: Mitra OTW.`);
+  showToast(`✅ Pembayaran pesanan #${orderId} terverifikasi masuk! Status: Mitra OTW.`);
 }
 
 function adminViewProofImage(orderId) {
@@ -1484,6 +1602,24 @@ function adminChangeOrderStatus(orderId, newStatus) {
   renderAdminDashboard();
   renderTracker();
   showToast(`Status pesanan #${orderId} diubah menjadi: ${newStatus.toUpperCase()}`);
+}
+
+function adminDeleteOrder(orderId) {
+  if (!confirm(`Hapus data pesanan #${orderId}?`)) return;
+  state.orders = state.orders.filter(o => o.id !== orderId);
+  saveOrders();
+  renderAdminDashboard();
+  renderTracker();
+  showToast(`Pesanan #${orderId} berhasil dihapus.`);
+}
+
+function adminResetAllOrders() {
+  if (!confirm('Yakin ingin mengosongkan SEMUA data pesanan di dashboard admin?\nSemua riwayat pesanan uji coba akan dibersihkan agar Anda bisa mencoba alur pemesanan dari awal (0 pesanan).')) return;
+  state.orders = [];
+  saveOrders();
+  renderAdminDashboard();
+  renderTracker();
+  showToast('✅ Semua data pesanan di dashboard admin berhasil dibersihkan!');
 }
 
 // Utility Helpers

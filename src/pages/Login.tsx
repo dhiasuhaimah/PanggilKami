@@ -134,24 +134,6 @@ export const Login: React.FC = () => {
             </button>
           </form>
 
-          {/* Quick Credential Hint for Tester */}
-          <div style={{
-            marginTop: '1.5rem',
-            padding: '0.75rem',
-            backgroundColor: '#F8FAFC',
-            borderRadius: 'var(--radius-md)',
-            border: '1px solid #E2E8F0',
-            fontSize: '0.75rem',
-            color: '#64748B',
-            lineHeight: '1.4'
-          }}>
-            <div style={{ fontWeight: 700, color: '#334155', marginBottom: '0.2rem' }}>
-              🔑 Akun Bawaan Sistem:
-            </div>
-            <div>Admin: <code>admin@gmail.com</code> | Sandi: <code>123456</code></div>
-            <div>Pelanggan: <code>budi@gmail.com</code> | Sandi: <code>123456</code></div>
-          </div>
-
           <div style={{
             marginTop: '1.75rem',
             textAlign: 'center',
