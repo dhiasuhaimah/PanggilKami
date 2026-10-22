@@ -78,22 +78,23 @@ const DEFAULT_SERVICES: Service[] = [
     name: 'Bersih Kamar Kos',
     slug: 'bersih-kamar-kos',
     description: 'Layanan kebersihan khusus kamar kos: sapu, pel lantai, lap debu meja/lemari, ganti sprei, dan buang sampah.',
-    short_desc: 'Bersih kamar kos rapi, higienis & wangi mulai Rp 50.000 / sesi pengerjaan.',
+    short_desc: 'Bersih kamar kos rapi, higienis & wangi mulai Rp 50.000 / jam pengerjaan.',
     base_price: 50000,
-    unit: 'per sesi (kamar standar)',
+    unit: 'per jam pengerjaan',
     category: 'Kebersihan Hunian',
     is_active: true,
     image_url: '/images/service_cleaning.jpg',
     pricing_rules: {
-      note: 'Tarif mulai Rp 50.000 per sesi kamar standar di Solo.'
+      hourly_rate: 50000,
+      note: 'Tarif mulai Rp 50.000 per jam pengerjaan kamar kos di Solo.'
     }
   },
   {
     id: 'srv_5',
-    name: 'Cuci WC & Kamar Mandi',
+    name: 'Bersihin WC & Kamar Mandi',
     slug: 'cuci-wc-kamar-mandi',
     description: 'Pembersihan kerak membandel pada lantai kamar mandi, kloset duduk/jongkok, wastafel, dan dinding dengan pembersih profesional.',
-    short_desc: 'Cuci WC tuntas kerak & higienis mulai Rp 100.000 / jam pengerjaan.',
+    short_desc: 'Bersihin WC tuntas kerak & higienis mulai Rp 100.000 / jam pengerjaan.',
     base_price: 100000,
     unit: 'per jam pengerjaan',
     category: 'Kebersihan Hunian',

@@ -207,22 +207,22 @@ const SERVICES_MAP = {
     name: 'Bersih Kamar Kos',
     shortName: 'Bersih Kamar Kos',
     img: './images/clenings1.png',
-    basePrice: 50000, // Rp 50.000 / sesi
-    priceUnit: '/ sesi',
+    basePrice: 50000, // Rp 50.000 / jam
+    priceUnit: '/ jam',
     tag: 'Rapi & Wangi',
     desc: 'Layanan kebersihan kamar tidur kos: sapu, pel lantai, lap debu perabotan meja/lemari, ganti sprei kasur, dan rapikan ruangan.',
-    placeholder: 'Contoh: Bersihkan kamar kos ukuran 3x4 meter, sapu, pel, dan rapikan meja belajar...'
+    placeholder: 'Contoh: Bersihkan kamar kos ukuran 3x4 meter (estimasi 1 jam), sapu, pel, dan rapikan meja belajar...'
   },
   'cuci-wc': {
     id: 'cuci-wc',
-    name: 'Cuci WC & Kamar Mandi',
-    shortName: 'Cuci WC & Mandi',
+    name: 'Bersihin WC & Kamar Mandi',
+    shortName: 'Bersihin WC',
     img: './images/cuci_wc.png',
     basePrice: 100000, // Rp 100.000 / jam
     priceUnit: '/ jam',
     tag: 'Kinclong & Higienis',
-    desc: 'Cuci dan sikat kamar mandi berkerak kuning/hitam, bersihkan kloset duduk/jongkok, wastafel, dinding keramik, dan bak mandi. Mitra bawa cairan pembersih kerak dan sikat lengkap.',
-    placeholder: 'Contoh: Sikat kamar mandi dalam yang berkerak kuning + kloset jongkok (estimasi 1 jam)...'
+    desc: 'Sikat dan cuci tuntas kloset duduk/jongkok, lantai kamar mandi berkerak, wastafel, dinding keramik, dan kuras bak mandi hingga higienis & wangi.',
+    placeholder: 'Contoh: Bersihin WC dan sikat kamar mandi berkerak kuning/hitam (estimasi 1 jam pengerjaan)...'
   },
   'suruh-bebas': {
     id: 'suruh-bebas',
@@ -255,28 +255,34 @@ function renderSelectedServiceCard() {
   if (priceEl) {
     priceEl.innerText = `Rp ${formatRupiah(serviceObj.basePrice)}${serviceObj.priceUnit ? ' ' + serviceObj.priceUnit : ''}`;
   }
-
-  // Update active state on chips inside collapsible
-  document.querySelectorAll('.service-chip').forEach(chip => {
-    chip.classList.toggle('active', chip.dataset.service === serviceKey);
-  });
 }
 
-// Toggle collapsible service picker
-function toggleServicePicker(forceState = null) {
-  const container = document.getElementById('serviceChipsContainer');
-  const toggleBtnText = document.getElementById('btnToggleServiceText');
-  if (!container) return;
+// Toggle change service dropdown menu in Step 1
+function toggleChangeServiceDropdown(e) {
+  if (e) e.stopPropagation();
+  const dropdown = document.getElementById('dropdownUbahLayanan');
+  if (!dropdown) return;
+  const isHidden = dropdown.style.display === 'none' || dropdown.style.display === '';
+  dropdown.style.display = isHidden ? 'block' : 'none';
+}
 
-  const willShow = (forceState !== null) ? forceState : (container.style.display === 'none' || container.style.display === '');
-  if (willShow) {
-    container.style.display = 'block';
-    if (toggleBtnText) toggleBtnText.innerText = 'Tutup Pilihan ✕';
-  } else {
-    container.style.display = 'none';
-    if (toggleBtnText) toggleBtnText.innerText = 'Ganti Layanan';
+function selectServiceFromDropdown(serviceKey) {
+  selectServiceForOrder(serviceKey, false);
+  const dropdown = document.getElementById('dropdownUbahLayanan');
+  if (dropdown) dropdown.style.display = 'none';
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', (e) => {
+  const dropdown = document.getElementById('dropdownUbahLayanan');
+  const btn = document.getElementById('btnUbahLayanan');
+  const card = document.getElementById('singleActiveServiceCard');
+  if (dropdown && dropdown.style.display === 'block') {
+    if (!dropdown.contains(e.target) && !btn?.contains(e.target) && !card?.contains(e.target)) {
+      dropdown.style.display = 'none';
+    }
   }
-}
+});
 
 // Select service programmatically from service cards or chips
 function selectServiceForOrder(serviceKey, shouldFocusStep2 = true) {
@@ -284,21 +290,22 @@ function selectServiceForOrder(serviceKey, shouldFocusStep2 = true) {
   state.selectedService = serviceKey;
 
   renderSelectedServiceCard();
-  toggleServicePicker(false); // Collapses to 1 service only
   updateOrderPrice();
 
   if (shouldFocusStep2) {
-    const step2El = document.getElementById('step2Header');
-    const taskInput = document.getElementById('taskDesc');
-    if (step2El) {
-      step2El.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Smoothly scroll to order section so user clearly sees the selected service in Step 1
+    const pesanSection = document.getElementById('pesan');
+    if (pesanSection) {
+      pesanSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    const taskInput = document.getElementById('taskDesc');
     if (taskInput) {
       setTimeout(() => {
         taskInput.focus();
         taskInput.classList.add('step2-highlight');
         setTimeout(() => taskInput.classList.remove('step2-highlight'), 1800);
-      }, 350);
+      }, 450);
     }
     showToast(`✓ Layanan "${SERVICES_MAP[serviceKey].name}" dipilih. Silakan tulis tugas Anda.`);
   }
@@ -1131,7 +1138,7 @@ function openReviewModalForOrder(orderId) {
       }
       if (!matched) {
         const sLower = (order.service || '').toLowerCase();
-        if (sLower.includes('wc') || sLower.includes('mandi')) serviceSelect.value = 'Cuci WC & Kamar Mandi';
+        if (sLower.includes('wc') || sLower.includes('mandi')) serviceSelect.value = 'Bersihin WC & Kamar Mandi';
         else if (sLower.includes('kamar') || sLower.includes('kos')) serviceSelect.value = 'Bersih Kamar Kos';
         else if (sLower.includes('jastip') || sLower.includes('titip')) serviceSelect.value = 'Jasa Titip Barang & Belanja';
         else if (sLower.includes('antar') || sLower.includes('jemput')) serviceSelect.value = 'Antar Jemput Orang (Ride Solo)';
@@ -1555,16 +1562,6 @@ function showToast(msg, type = 'info') {
 
 // Bind Event Listeners
 function bindEvents() {
-  // Service chips selection
-  document.querySelectorAll('.service-chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      const serviceKey = chip.dataset.service;
-      if (serviceKey) {
-        selectServiceForOrder(serviceKey, true);
-      }
-    });
-  });
-
   // Area select change
   const areaSelect = document.getElementById('orderArea');
   if (areaSelect) {

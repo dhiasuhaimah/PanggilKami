@@ -171,7 +171,7 @@
 
         <div class="services-grid">
           <!-- Card 1: Jastip Barang -->
-          <div class="service-card" onclick="selectServiceForOrder('jastip')">
+          <div class="service-card" onclick="selectServiceForOrder('jastip', true)">
             <div class="service-img-wrapper">
               <img src="./images/jastip1.png" alt="Jasa Titip Barang & Belanja Solo" />
             </div>
@@ -185,11 +185,11 @@
               <span>Tarif Jasa Mulai:</span>
               <strong>Rp 15.000</strong>
             </div>
-            <button class="service-action-btn">Pilih Jastip </button>
+            <button type="button" class="service-action-btn" onclick="selectServiceForOrder('jastip', true); event.stopPropagation();">Pilih Jastip</button>
           </div>
 
           <!-- Card 2: Antar Jemput Orang -->
-          <div class="service-card" onclick="selectServiceForOrder('antar-orang')">
+          <div class="service-card" onclick="selectServiceForOrder('antar-orang', true)">
             <div class="service-img-wrapper">
               <img src="./images/antarjmppt1.png" alt="Antar Jemput Orang Solo" />
             </div>
@@ -203,11 +203,11 @@
               <span>Tarif Awal Mulai:</span>
               <strong>Rp 15.000</strong>
             </div>
-            <button class="service-action-btn">Pilih Antar Jemput </button>
+            <button type="button" class="service-action-btn" onclick="selectServiceForOrder('antar-orang', true); event.stopPropagation();">Pilih Antar Jemput</button>
           </div>
 
           <!-- Card 3: Bersih Kamar Kos -->
-          <div class="service-card" onclick="selectServiceForOrder('bersih-kos')">
+          <div class="service-card" onclick="selectServiceForOrder('bersih-kos', true)">
             <div class="service-img-wrapper">
               <img src="./images/clenings1.png" alt="Bersih-bersih Kamar Kos Solo" />
             </div>
@@ -218,30 +218,30 @@
             </p>
             <div class="service-pricing">
               <span>Tarif Mulai:</span>
-              <strong>Rp 50.000 / sesi</strong>
+              <strong>Rp 50.000 / jam</strong>
             </div>
-            <button class="service-action-btn">Pilih Bersih Kos </button>
+            <button type="button" class="service-action-btn" onclick="selectServiceForOrder('bersih-kos', true); event.stopPropagation();">Pilih Bersih Kos</button>
           </div>
 
-          <!-- Card 4: Cuci WC & Kamar Mandi -->
-          <div class="service-card" onclick="selectServiceForOrder('cuci-wc')">
+          <!-- Card 4: Bersihin WC -->
+          <div class="service-card" onclick="selectServiceForOrder('cuci-wc', true)">
             <div class="service-img-wrapper">
-              <img src="./images/cuci_wc.png" alt="Cuci WC dan Kamar Mandi Solo" />
+              <img src="./images/cuci_wc.png" alt="Bersihin WC dan Kamar Mandi Solo" />
             </div>
-            <span class="service-badge" style="background: #E0F2FE; color: #0284C7; border-color: #BAE6FD;">Kinclong & Higienis</span>
-            <h3 class="service-name">Cuci WC & Kamar Mandi</h3>
+            <span class="service-badge">Kinclong & Higienis</span>
+            <h3 class="service-name">Bersihin WC</h3>
             <p class="service-desc">
               Sikat & cuci tuntas lantai berkerak, kloset duduk/jongkok, wastafel, dinding keramik, dan bak mandi. Mitra bawa cairan pembersih kerak dan sikat lengkap.
             </p>
             <div class="service-pricing">
               <span>Tarif Mulai:</span>
-              <strong style="color: #0284C7;">Rp 100.000 / jam</strong>
+              <strong>Rp 100.000 / jam</strong>
             </div>
-            <button class="service-action-btn">Pilih Cuci WC </button>
+            <button type="button" class="service-action-btn" onclick="selectServiceForOrder('cuci-wc', true); event.stopPropagation();">Pilih Bersihin WC</button>
           </div>
 
           <!-- Card 5: Suruh Apa Saja -->
-          <div class="service-card" onclick="selectServiceForOrder('suruh-bebas')">
+          <div class="service-card" onclick="selectServiceForOrder('suruh-bebas', true)">
             <div class="service-img-wrapper">
               <img src="./images/antarbarang1.png" alt="Antar Barang & Suruh Apa Saja Solo" />
             </div>
@@ -255,7 +255,7 @@
               <span>Tarif Mulai:</span>
               <strong>Rp 15.000</strong>
             </div>
-            <button class="service-action-btn">Pilih Suruh Bebas </button>
+            <button type="button" class="service-action-btn" onclick="selectServiceForOrder('suruh-bebas', true); event.stopPropagation();">Pilih Suruh Bebas</button>
           </div>
         </div>
       </div>
@@ -274,20 +274,61 @@
 
         <div class="order-box">
           <form id="quickOrderForm">
-            <!-- Langkah 1: Pilih Layanan (Tampil 1 Layanan Terpilih & Bisa Diganti) -->
+            <!-- Langkah 1: Layanan yang Dipilih (Tampil 1 Kartu Bersih & Bisa Diubah Kapan Saja) -->
             <div class="order-step-header-wrap" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
               <div class="order-step-title" style="margin-bottom: 0;">
                 <span class="step-num">1</span>
                 <span>Layanan yang Dipilih</span>
               </div>
-              <button type="button" id="btnToggleChangeService" onclick="toggleServicePicker()" class="btn btn-sm btn-secondary" style="font-size: 0.78rem; font-weight: 700; padding: 5px 14px; border-radius: 99px; display: flex; align-items: center; gap: 6px;">
-                <span>🔄</span>
-                <span id="btnToggleServiceText">Ganti Layanan</span>
-              </button>
+              <div style="position: relative;">
+                <button type="button" id="btnUbahLayanan" onclick="toggleChangeServiceDropdown(event)" class="btn btn-sm btn-outline-navy" style="font-weight: 700; border-radius: 99px; padding: 6px 14px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem;">
+                  <span>✏️ Ubah Layanan</span>
+                  <span style="font-size: 0.72rem;">▾</span>
+                </button>
+
+                <!-- Dropdown Menu Pilihan 5 Layanan (Hanya muncul saat tombol Ubah diklik) -->
+                <div id="dropdownUbahLayanan" class="change-service-dropdown" style="display: none;">
+                  <div class="change-service-item" onclick="selectServiceFromDropdown('jastip')">
+                    <img src="./images/jastip1.png" alt="Jastip" class="dropdown-item-thumb" />
+                    <div class="dropdown-item-text">
+                      <strong>Jasa Titip Barang & Belanja</strong>
+                      <span>Tarif Mulai Rp 15.000</span>
+                    </div>
+                  </div>
+                  <div class="change-service-item" onclick="selectServiceFromDropdown('antar-orang')">
+                    <img src="./images/antarjmppt1.png" alt="Antar Orang" class="dropdown-item-thumb" />
+                    <div class="dropdown-item-text">
+                      <strong>Antar Jemput Orang (Ride Solo)</strong>
+                      <span>Tarif Mulai Rp 15.000</span>
+                    </div>
+                  </div>
+                  <div class="change-service-item" onclick="selectServiceFromDropdown('bersih-kos')">
+                    <img src="./images/clenings1.png" alt="Bersih Kos" class="dropdown-item-thumb" />
+                    <div class="dropdown-item-text">
+                      <strong>Bersih Kamar Kos</strong>
+                      <span>Tarif Mulai Rp 50.000 / jam</span>
+                    </div>
+                  </div>
+                  <div class="change-service-item" onclick="selectServiceFromDropdown('cuci-wc')">
+                    <img src="./images/cuci_wc.png" alt="Bersihin WC" class="dropdown-item-thumb" />
+                    <div class="dropdown-item-text">
+                      <strong>Bersihin WC & Kamar Mandi</strong>
+                      <span>Tarif Mulai Rp 100.000 / jam</span>
+                    </div>
+                  </div>
+                  <div class="change-service-item" onclick="selectServiceFromDropdown('suruh-bebas')">
+                    <img src="./images/antarbarang1.png" alt="Suruh Bebas" class="dropdown-item-thumb" />
+                    <div class="dropdown-item-text">
+                      <strong>Suruh Apa Saja (Fleksibel)</strong>
+                      <span>Tarif Mulai Rp 15.000</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- Single Active Chosen Service Card (Hanya 1 Layanan Aktif Bersih) -->
-            <div id="singleActiveServiceCard" class="selected-service-card" onclick="toggleServicePicker()" title="Klik untuk mengganti layanan jika ingin">
+            <!-- Single Active Chosen Service Detail Card (HANYA 1 KARTU RAPI TANPA KARTU GANDA) -->
+            <div id="singleActiveServiceCard" class="selected-service-card" onclick="toggleChangeServiceDropdown(event)" title="Klik untuk mengubah layanan" style="margin-bottom: 24px;">
               <div class="selected-service-thumb">
                 <img id="selectedServiceImg" src="./images/jastip1.png" alt="Layanan Terpilih" class="selected-service-img" />
               </div>
@@ -295,7 +336,7 @@
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
                   <span class="selected-service-badge" id="selectedServiceBadge">Paling Sering Dipesan</span>
                   <span style="font-size: 0.72rem; color: #059669; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
-                    <span style="width: 6px; height: 6px; background: #10B981; border-radius: 50%; display: inline-block;"></span> Siap Dipesan
+                    <span style="width: 6px; height: 6px; background: #10B981; border-radius: 50%; display: inline-block;"></span> Aktif Dipilih
                   </span>
                 </div>
                 <h4 class="selected-service-name" id="selectedServiceName">Jasa Titip Barang & Belanja</h4>
@@ -304,64 +345,7 @@
               <div class="selected-service-price-box">
                 <span style="font-size: 0.72rem; color: var(--text-muted); display: block;">Tarif Dasar:</span>
                 <strong class="selected-service-price" id="selectedServicePrice">Rp 15.000</strong>
-                <span class="btn-change-pill">Ganti ▾</span>
-              </div>
-            </div>
-
-            <!-- Dropdown / Collapsible Picker jika ingin mengganti ke jenis layanan lain -->
-            <div id="serviceChipsContainer" class="service-chips-collapsible" style="display: none;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 0; font-weight: 700;">
-                  Pilih salah satu layanan untuk beralih:
-                </p>
-                <button type="button" onclick="toggleServicePicker(false)" class="btn btn-sm btn-secondary" style="padding: 2px 8px; font-size: 0.72rem;">Tutup ✕</button>
-              </div>
-              <div class="service-chips">
-                <div class="service-chip active" data-service="jastip" onclick="selectServiceForOrder('jastip', true)">
-                  <div class="service-chip-thumb">
-                    <img src="./images/jastip1.png" alt="Jastip Belanja" class="service-chip-img" />
-                  </div>
-                  <div class="service-chip-info">
-                    <span class="service-chip-title">Jastip Belanja</span>
-                    <span class="service-chip-price">Mulai Rp 15.000</span>
-                  </div>
-                </div>
-                <div class="service-chip" data-service="antar-orang" onclick="selectServiceForOrder('antar-orang', true)">
-                  <div class="service-chip-thumb">
-                    <img src="./images/antarjmppt1.png" alt="Antar Orang" class="service-chip-img" />
-                  </div>
-                  <div class="service-chip-info">
-                    <span class="service-chip-title">Antar Orang</span>
-                    <span class="service-chip-price">Mulai Rp 15.000</span>
-                  </div>
-                </div>
-                <div class="service-chip" data-service="bersih-kos" onclick="selectServiceForOrder('bersih-kos', true)">
-                  <div class="service-chip-thumb">
-                    <img src="./images/clenings1.png" alt="Bersih Kamar Kos" class="service-chip-img" />
-                  </div>
-                  <div class="service-chip-info">
-                    <span class="service-chip-title">Bersih Kamar Kos</span>
-                    <span class="service-chip-price">Mulai Rp 50.000 / sesi</span>
-                  </div>
-                </div>
-                <div class="service-chip" data-service="cuci-wc" onclick="selectServiceForOrder('cuci-wc', true)">
-                  <div class="service-chip-thumb">
-                    <img src="./images/cuci_wc.png" alt="Cuci WC & Kamar Mandi" class="service-chip-img" />
-                  </div>
-                  <div class="service-chip-info">
-                    <span class="service-chip-title">Cuci WC & Mandi</span>
-                    <span class="service-chip-price">Mulai Rp 100.000 / jam</span>
-                  </div>
-                </div>
-                <div class="service-chip" data-service="suruh-bebas" onclick="selectServiceForOrder('suruh-bebas', true)">
-                  <div class="service-chip-thumb">
-                    <img src="./images/antarbarang1.png" alt="Suruh Bebas" class="service-chip-img" />
-                  </div>
-                  <div class="service-chip-info">
-                    <span class="service-chip-title">Suruh Bebas</span>
-                    <span class="service-chip-price">Mulai Rp 15.000</span>
-                  </div>
-                </div>
+                <span class="btn-change-pill">✏️ Ubah ▾</span>
               </div>
             </div>
 
@@ -879,8 +863,8 @@
           <select id="revServiceInput" class="form-select">
             <option value="Jasa Titip Barang & Belanja">Jasa Titip Barang & Belanja (Mulai Rp 15.000)</option>
             <option value="Antar Jemput Orang (Ride Solo)">Antar Jemput Orang / Ride Solo (Mulai Rp 15.000)</option>
-            <option value="Bersih Kamar Kos">Bersih Kamar Kos (Mulai Rp 50.000 / sesi)</option>
-            <option value="Cuci WC & Kamar Mandi">Cuci WC & Kamar Mandi (Mulai Rp 100.000 / jam)</option>
+            <option value="Bersih Kamar Kos">Bersih Kamar Kos (Mulai Rp 50.000 / jam)</option>
+            <option value="Bersihin WC & Kamar Mandi">Bersihin WC & Kamar Mandi (Mulai Rp 100.000 / jam)</option>
             <option value="Suruh Apa Saja (Fleksibel)">Suruh Apa Saja / Fleksibel (Mulai Rp 15.000)</option>
           </select>
         </div>
